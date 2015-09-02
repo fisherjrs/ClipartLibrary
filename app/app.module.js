@@ -6,9 +6,10 @@ app.controller('DesignController', function($scope, $http) {
   };
   $scope.add = function(amount) { $scope.person.occupation = amount; };
   $scope.hello = function(amount) {
-  	$http.get('http://mspwwdhfhlxr1.jostens.com:9000/conduitservices/getmessages.json').
+  	$http.get('http://localhost:9000/conduitservices/getdesigndefinition.json?designId=' + amount).
         success(function(data) {
-            $scope.person.occupation = data[0].author.lastname;
+            $scope.person.occupation = data.categoryDefinition[0].categoryName;
+            $scope.categories = data.categoryDefinition;
         });
   };
 });
