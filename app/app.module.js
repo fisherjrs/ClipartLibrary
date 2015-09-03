@@ -12,13 +12,11 @@ app.controller('DesignController', function($scope, $http) {
             $scope.categories = data.categoryDefinition;
         });
   };
+  $scope.getImageList = function(designId, categoryId) {
+  	$http.get('http://localhost:9000/conduitservices/getimagelist?designId=' + designId + '&categoryId=' + categoryId ).
+  		success(function(data) {
+  			$scope.images = data;
+  		});
+  };
 });
 
-/*
- app.controller(function Hello($scope, $http) {
-    $http.get('http://rest-service.guides.spring.io/greeting').
-        success(function(data) {
-            $scope.greeting = data;
-        });
-}
-*/
