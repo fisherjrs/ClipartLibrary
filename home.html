@@ -11,6 +11,7 @@
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.1/css/bootstrap-theme.min.css" rel="stylesheet" media="screen" />    
     <link href="assets/css/library-three-columns.css" rel="stylesheet" media="screen" >
 <link href="assets/css/home-theme.css" rel="stylesheet" media="screen"/>
+<link href="assets/css/home-gallery.css" rel="stylesheet" media="screen" />
     <!--[if lt IE 9]>
       <script src="js/respond.min.js"></script>
     <![endif]-->
@@ -45,6 +46,7 @@
                 <li><a href="three-column-responsive.html">three-column-responsive</a></li>
                 <li><a href="bootstrap.html">bootstrap</a></li>
                 <li><a href="dragndrop.html">dragndrop</a></li>
+                <li><a href="gallery.html">gallery</a></li>
               </ul>
             </li>
           </ul>
@@ -63,8 +65,13 @@
           <button ng-click="getCategories(designId)" type="button" class="btn btn-sm btn-primary">Refresh</button>
 
           <ul>
-            <li ng-repeat="category in categories">
-              <span><a ng-click="getImageList(designId, category.categoryId)">{{category.categoryName}}</a></span>              
+            <li ng-repeat="category in categoryDefinition">
+              <span><a ng-click="displayImages(category.categoryId)">{{category.categoryName}}</a></span>
+                <ul>
+                <li ng-repeat="subcategory in category.categoryDefinition">
+                  <span><a ng-click="displayImages(subcategory.categoryId)">{{subcategory.categoryName}}</a></span>              
+                </li> 
+                </ul>             
             </li>
           </ul>
 
@@ -81,15 +88,85 @@
 	  	<div class="leftColumn">
 	  		<h2>Left Column (fluid)</h2>
 
-        <div>
-          <ul>
-            <li ng-repeat="image in images">
-              <span>{{image.imageName}}</span>
-            </li>
-          </ul>
-        </div>
 
         <img src="http://images.cdn.yearbookavenue.jostens.com/services/getimage?locator=TRY1-9-128166993&quality=thumbnail">
+        <div class="gallery">
+          <div class="wrap">
+            <!-- Define all of the tiles: -->
+            <div class="box">
+              <div class="boxInner">
+                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/7.jpg" />
+                <div class="titleBox">Butterfly</div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="boxInner">
+                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/1.jpg" />
+                <div class="titleBox">An old greenhouse</div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="boxInner">
+                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/2.jpg" />
+                <div class="titleBox">Purple wildflowers</div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="boxInner">
+                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/3.jpg" />
+                <div class="titleBox">A birdfeeder</div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="boxInner">
+                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/10.jpg" />
+                <div class="titleBox">Crocus close-up</div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="boxInner">
+                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/4.jpg" />
+                <div class="titleBox">The garden shop</div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="boxInner">
+                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/5.jpg" />
+                <div class="titleBox">Spring daffodils</div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="boxInner">
+                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/6.jpg" />
+                <div class="titleBox">Iris along the path</div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="boxInner">
+                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/8.jpg" />
+                <div class="titleBox">The garden blueprint</div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="boxInner">
+                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/9.jpg" />
+                <div class="titleBox">The patio</div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="boxInner">
+                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/11.jpg" />
+                <div class="titleBox">Bumble bee collecting nectar</div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="boxInner">
+                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/12.jpg" />
+                <div class="titleBox">Winding garden path</div>
+              </div>
+            </div>
+          </div>
+        </div>  
 
 	  		<p>Bacon ipsum dolor sit amet capicola ball tip beef ribs leberkas, turkey biltong salami shoulder ribeye. Leberkas chuck cow andouille kevin ribeye pork strip steak pork chop beef ribs beef ball tip corned beef. Leberkas prosciutto brisket, short ribs salami cow sirloin chicken. Bacon pork belly bresaola tenderloin biltong leberkas. Strip steak beef leberkas sirloin, venison turkey hamburger kevin. Drumstick chicken ground round t-bone flank fatback jerky ball tip. Jerky ribeye sirloin t-bone.</p>
 
@@ -112,8 +189,8 @@
 
 
   <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular-route.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-route.js"></script>
 
   <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 
