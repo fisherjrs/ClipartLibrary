@@ -1,8 +1,8 @@
 var app = angular.module('clipartLibrary', []);
 app.controller('DesignController', function($scope, $http) {
   $scope.person = {
-    name: "Richard Hawley",
-    occupation: "Star Gazer"
+      name: "Richard Hawley",
+      occupation: "Star Gazer"
   };
   $scope.mode = 'offline';
   $scope.designId = 9;
@@ -31,8 +31,8 @@ app.controller('DesignController', function($scope, $http) {
         });
   };
 
-  $scope.getImageList = function(designId, categoryId) {
-  	$http.get('http://localhost:9000/conduitservices/getimagelist?designId=' + designId + '&categoryId=' + categoryId ).
+  $scope.getImageList = function(designId, categoryId) {  	
+    $http.get('http://localhost:9000/conduitservices/getimagelist?designId=' + designId + '&categoryId=' + categoryId ).
   		then(function(response) {
   			$scope.images = response.data;
   		}, function(response){
@@ -41,7 +41,19 @@ app.controller('DesignController', function($scope, $http) {
   };
 
   $scope.displayImages = function(categoryId) {
-      alert("go green hornet.");
+      $scope.imageDefinition = null;
+      $scope.categoryId = categoryId;
+      for(i=0; i<$scope.categoryDefinition.length; i++) {
+        if($scope.categoryDefinition[i].categoryId == categoryId) {
+            //only apply image source for subset of image array to avoid loading all images at once.
+            images = $scope.categoryDefinition[i].imageDefinition;
+            for(j=0; j<2; j++){
+              images[j].src2 = images[j].src;
+            }
+            $scope.imageDefinition = images;
+          break;
+        }
+      }
   };
 });
 

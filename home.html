@@ -75,113 +75,33 @@
             </li>
           </ul>
 
-          <ul>
-            <li ng-repeat="image in images">
-              <span>{{image.imageName}}</span>
-            </li>
-          </ul>
+         
 
         </div>
 
       </div>
 
 	  	<div class="leftColumn">
-	  		<h2>Left Column (fluid)</h2>
 
-
-        <img src="http://images.cdn.yearbookavenue.jostens.com/services/getimage?locator=TRY1-9-128166993&quality=thumbnail">
-        <div class="gallery">
+        <div ng-show="imageDefinition" class="gallery">
           <div class="wrap">
-            <!-- Define all of the tiles: -->
-            <div class="box">
+            <div class="box" ng-repeat="image in imageDefinition">
               <div class="boxInner">
-                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/7.jpg" />
-                <div class="titleBox">Butterfly</div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="boxInner">
-                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/1.jpg" />
-                <div class="titleBox">An old greenhouse</div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="boxInner">
-                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/2.jpg" />
-                <div class="titleBox">Purple wildflowers</div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="boxInner">
-                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/3.jpg" />
-                <div class="titleBox">A birdfeeder</div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="boxInner">
-                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/10.jpg" />
-                <div class="titleBox">Crocus close-up</div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="boxInner">
-                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/4.jpg" />
-                <div class="titleBox">The garden shop</div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="boxInner">
-                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/5.jpg" />
-                <div class="titleBox">Spring daffodils</div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="boxInner">
-                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/6.jpg" />
-                <div class="titleBox">Iris along the path</div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="boxInner">
-                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/8.jpg" />
-                <div class="titleBox">The garden blueprint</div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="boxInner">
-                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/9.jpg" />
-                <div class="titleBox">The patio</div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="boxInner">
-                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/11.jpg" />
-                <div class="titleBox">Bumble bee collecting nectar</div>
-              </div>
-            </div>
-            <div class="box">
-              <div class="boxInner">
-                <img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/12.jpg" />
-                <div class="titleBox">Winding garden path</div>
+                <img src="{{image.src}}" />
+                <div class="titleBox">{{image.name}}</div>
               </div>
             </div>
           </div>
-        </div>  
+        </div>   
+        
 
-	  		<p>Bacon ipsum dolor sit amet capicola ball tip beef ribs leberkas, turkey biltong salami shoulder ribeye. Leberkas chuck cow andouille kevin ribeye pork strip steak pork chop beef ribs beef ball tip corned beef. Leberkas prosciutto brisket, short ribs salami cow sirloin chicken. Bacon pork belly bresaola tenderloin biltong leberkas. Strip steak beef leberkas sirloin, venison turkey hamburger kevin. Drumstick chicken ground round t-bone flank fatback jerky ball tip. Jerky ribeye sirloin t-bone.</p>
-
-				<p>Tongue prosciutto pork ball tip ham hock, meatball sirloin brisket kielbasa biltong doner shoulder bresaola. Chuck beef ribs biltong, kielbasa ground round swine andouille corned beef. Venison hamburger tongue shank. Leberkas doner pork chop sausage kielbasa pancetta, biltong brisket pastrami tenderloin boudin filet mignon sirloin cow meatloaf. Ham ball tip bacon pork belly sirloin.</p>
-
-				<p>Shoulder pig short ribs, salami chicken venison bresaola. Frankfurter meatball pork chop pork loin, turkey strip steak kielbasa pork belly drumstick shank prosciutto. Pork chicken ground round, sirloin tri-tip ham hock pork chop cow meatloaf pork loin bresaola turkey. Prosciutto hamburger pork short ribs flank tri-tip chicken pig bacon meatloaf t-bone shankle doner. Bresaola doner spare ribs biltong jowl boudin, tri-tip pork leberkas ham hock filet mignon.</p>
-
-				<p>Leberkas strip steak shoulder meatball, flank biltong shank fatback ball tip swine prosciutto hamburger. Jerky frankfurter drumstick, ham ham hock hamburger kevin kielbasa salami chuck. Flank rump beef cow, beef ribs meatball ball tip jowl bacon pork chop. Biltong tongue pork chop hamburger. Frankfurter tri-tip pancetta pork chop venison t-bone andouille beef ribs salami boudin meatball doner spare ribs. Brisket pork chop pig kielbasa jerky chuck pork belly beef meatball boudin short loin. Doner jerky andouille ham meatloaf prosciutto kevin pork belly short loin pancetta.</p>
-
-				<p>Corned beef spare ribs hamburger pork tenderloin flank pork loin beef ribs sausage brisket chicken venison bacon short loin sirloin. Ribeye tail short ribs andouille kevin chicken shankle meatloaf, corned beef rump sirloin t-bone chuck tongue. Swine venison tongue, sirloin turducken drumstick bresaola strip steak rump. Kevin ham hock meatball tri-tip. Ground round leberkas pig beef salami strip steak meatball beef ribs. Chicken ball tip rump, short loin bresaola pork t-bone jerky jowl pork chop tail chuck sausage prosciutto.</p>
+        <div ng-show="categoryId && !imageDefinition">
+          <p>It appears that no images are part of this category: {{categoryId}}. If you loaded your design definition from a local json file then you can search the file for this categoryId to investigate the problem. Otherwise, you'll need to consult the database.
+        </div>
+	  		
 	  	</div>
 
 	  	<div class="rightColumn">
-	  		<h2>Right Column</h2>
-
 	  		<p>Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora quaeritis. Summus brains sit​​, morbo vel maleficia? De apocalypsi gorger omero undead survivor dictum mauris. Hi mindless mortuis soulless creaturas, imo evil stalking monstra adventus resi dentevil vultus comedat cerebella viventium. Qui animated corpse, cricket bat max brucks terribilem incessu zomby. The voodoo sacerdos flesh eater, suscitat mortuos comedere carnem virus. Zonbi tattered for solum oculi eorum defunctis go lum cerebro. Nescio brains an Undead zombies. Sicut malus putrid voodoo horror. Nigh tofth eliv ingdead.</p>
 	  	</div>
 
