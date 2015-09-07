@@ -1,91 +1,73 @@
+
 <!doctype html>
 <html ng-app="clipartLibrary">
-<head>
- <title>Clipart Library</title>
-    
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen" />
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.1/css/bootstrap-theme.min.css" rel="stylesheet" media="screen" />
-    <link href="assets/css/theme.css" rel="stylesheet" media="screen"/>
-	         
-</head>
- <body role="document">
+  <head>
+     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <title>ClipartLibrary - Home - Three Columns</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.1/css/bootstrap-theme.min.css" rel="stylesheet" media="screen" />    
+    <link href="assets/css/library-three-columns.css" rel="stylesheet" media="screen" >
+    <link href="assets/css/home-theme.css" rel="stylesheet" media="screen"/>
+    <link href="assets/css/home-gallery.css" rel="stylesheet" media="screen" />
+    <!--[if lt IE 9]>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+  
+  <body>
+        
+    <nav class="navbar navbar-inverse">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Library</a>
+          <a class="navbar-brand" href="#/home">Clipart Library</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
+            <li class="active"><a href="#/home">Library</a></li>
+            <li><a href="#/publish">Publish</a></li>
+            <li><a href="#/compare">Compare</a></li>
+            <li><a href="#/seed">Seed</a></li>
+            <li><a href="#/reports">Reports</a></li>
+            <li><a href="#/admin">Admin</a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Misc. <span class="caret"></span></a>
+              <ul class="dropdown-menu">                
+                <li><a href="index2.html">index2</a></li>
                 <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
+                <li class="dropdown-header">layouts</li>
+                <li><a href="two-column-responsive.html">two-column-responsive</a></li>
+                <li><a href="three-column-responsive.html">three-column-responsive</a></li>
+                <li class="dropdown-header">tests</li>
+                <li><a href="two-column-responsive.html">two-column-responsive</a></li>
+                <li><a href="three-column-responsive.html">three-column-responsive</a></li>
+                <li><a href="bootstrap.html">bootstrap</a></li>
+                <li><a href="dragndrop.html">dragndrop</a></li>
+                <li><a href="gallery.html">gallery</a></li>
               </ul>
             </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-
-    <div class="container theme-showcase" role="main">
-      <br/><br/><br/><br/><br/><br/><br/><br/>
-		 <div ng-controller="DesignController">
-		    <h1>Person object :: {{ person }}</h1>
-		    <h2>Person name field :: {{ person.name }}</h2>
-		    <input ng-model="name" type="text" placeholder="Your name">
-		    <h1>Hello {{ name }}</h1>
-
-        <input ng-model="designId" type="text" placeholder="designId">
-        <button ng-click="hello(designId)" type="button" class="btn btn-lg btn-primary">Get Design Definition</button>
-
-          <ul>
-            <li ng-repeat="category in categories">
-              <span><a ng-click="getImageList(designId, category.categoryId)">{{category.categoryId}} - {{category.categoryName}}</a></span>              
-            </li>
-          </ul>
-
-        <ul>
-          <li ng-repeat="image in images">
-            <span>{{image.imageName}}</span>
-          </li>
-        </ul>
-
-		 </div>
-
-
-
-
-    </div> <!-- /container -->
-
-	 
-	<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular-route.js"></script>
+    
+  <ng-view></ng-view>
+  <!-- <div ng-view></div>
+ -->
+  <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-route.js"></script>
 
   <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 
   <script src="app/app.module.js"></script>
-	        
+  <script src="app/app.controllers.js"></script>
+          
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
   <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js></script>
 
-</body>
+  </body>
 </html>
