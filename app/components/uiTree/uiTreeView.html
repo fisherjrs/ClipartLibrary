@@ -1,0 +1,42 @@
+
+<div class="columnsContainer">
+
+<div class="sideNav">
+  <h4>UITree</h4>
+
+	<div >
+
+              <h3>Draggable Tree</h3>
+
+              <!-- Nested list template -->
+              <script type="text/ng-template" id="items_renderer.html">
+                <div ui-tree-handle>
+                  <a class="btn btn-default btn-xs" data-nodrag ng-click="uiTreeToggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+                  {{item.title}}
+                  <a class="pull-right btn btn-default btn-xs" data-nodrag ng-click="remove(this)"><span class="glyphicon glyphicon-remove"></span></a>
+                  <a class="pull-right btn btn-default btn-xs" data-nodrag ng-click="newSubItem(this)" style="margin-right: 8px;"><span class="glyphicon glyphicon-plus"></span></a>
+                </div>
+                <ol ui-tree-nodes="options" ng-model="item.items" ng-class="{hidden: collapsed}">
+                  <li ng-repeat="item in item.items" ui-tree-node ng-include="'items_renderer.html'">
+                  </li>
+                </ol>
+              </script>
+              <div ui-tree="options">
+                <ol ui-tree-nodes ng-model="list" >
+                  <li ng-repeat="item in list" ui-tree-node ng-include="'items_renderer.html'"></li>
+                </ol>
+              </div>
+    </div>   
+</div>
+
+<div class="leftColumn">
+
+    <p>UITree</p>
+</div>
+
+<div class="rightColumn">
+	<p>Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora quaeritis. Summus brains sit​​, morbo vel maleficia? De apocalypsi gorger omero undead survivor dictum mauris. Hi mindless mortuis soulless creaturas, imo evil stalking monstra adventus resi dentevil vultus comedat cerebella viventium. Qui animated corpse, cricket bat max brucks terribilem incessu zomby. The voodoo sacerdos flesh eater, suscitat mortuos comedere carnem virus. Zonbi tattered for solum oculi eorum defunctis go lum cerebro. Nescio brains an Undead zombies. Sicut malus putrid voodoo horror. Nigh tofth eliv ingdead.</p>
+</div>
+
+</div>
+  

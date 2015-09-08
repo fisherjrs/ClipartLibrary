@@ -1,7 +1,8 @@
 
 var app = angular.module('clipartLibrary', [
   'ngRoute',
-  'clipartLibraryControllers']);
+  'clipartLibraryControllers',
+  'ui.tree']);
 
 app.config(['$routeProvider',
   function($routeProvider) {
@@ -28,6 +29,10 @@ app.config(['$routeProvider',
       }).
       when('/seed', {
         templateUrl: 'app/components/seed/seedView.html',
+        controller: 'DesignController'
+      }).
+      when('/uitree', {
+        templateUrl: 'app/components/uiTree/uiTreeView.html',
         controller: 'DesignController'
       }).
       otherwise({
