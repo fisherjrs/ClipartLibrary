@@ -114,5 +114,14 @@ clipartLibraryControllers.controller('DesignController', function($scope, $http)
         categoryList: []
       });
     };
+
+  $scope.newSubItem_original = function(scope) {
+      var nodeData = scope.$modelValue;
+      nodeData.items.push({
+        id: nodeData.id * 10 + nodeData.items.length,
+        title: 'Rename Me',
+        items: []
+      });
+    };
 });
 
