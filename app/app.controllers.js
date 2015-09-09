@@ -27,8 +27,8 @@ clipartLibraryControllers.controller('DesignController', function($scope, $http)
     }
     $http.get( url + designId).
         then(function(response) {
-            $scope.person.occupation = response.data.categoryDefinition[0].categoryName;
-            $scope.categoryDefinition = response.data.categoryDefinition;
+            //$scope.person.occupation = response.data.categoryDefinition[0].categoryName;
+            $scope.categoryDefinition = response.data.categoryList;
         }, function(response) {
             $scope.error = "Unable to retrieve category definition."
         });
@@ -77,7 +77,7 @@ clipartLibraryControllers.controller('DesignController', function($scope, $http)
           "id": 212,
           "title": "2.1.2. bubble-burst",
           "items": []
-        }],
+        }]
       }, {
         "id": 22,
         "title": "2.2. barehand-atomsplitting",
@@ -106,12 +106,12 @@ clipartLibraryControllers.controller('DesignController', function($scope, $http)
       scope.toggle();
     };
 
-    $scope.newSubItem = function(scope) {
+  $scope.newSubItem = function(scope) {
       var nodeData = scope.$modelValue;
-      nodeData.items.push({
-        id: nodeData.id * 10 + nodeData.items.length,
-        title: nodeData.title + '.' + (nodeData.items.length + 1),
-        items: []
+      nodeData.categoryList.push({
+        id: nodeData.id * 10 + nodeData.categoryList.length,
+        categoryName: 'Rename Me',
+        categoryList: []
       });
     };
 });
