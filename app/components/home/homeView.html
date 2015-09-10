@@ -20,9 +20,12 @@
 
     <!-- Nested list template -->
               <script type="text/ng-template" id="items_renderer.html">
-                <div ui-tree-handle>
+                <div>
+                  <div class="pull-left tree-handle" ui-tree-handle>
+                    <span class="glyphicon glyphicon-list"></span>
+                  </div>
                   <a class="btn btn-default btn-xs" data-nodrag ng-click="uiTreeToggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
-                  {{item.categoryName}}
+                  <a data-nodrag ng-click="displayImages(item.id)">{{item.categoryName}}</a>
                   <a class="pull-right btn btn-default btn-xs" data-nodrag ng-click="remove(this)"><span class="glyphicon glyphicon-remove"></span></a>
                   <a class="pull-right btn btn-default btn-xs" data-nodrag ng-click="newSubItem(this)" style="margin-right: 8px;"><span class="glyphicon glyphicon-plus"></span></a>
                 </div>
@@ -44,7 +47,7 @@
         </div>
         <div class="tree-node-content">
           <a class="btn btn-default btn-xs" data-nodrag ng-click="uiTreeToggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
-          {{item.categoryName}}
+         {{item.categoryName}}
           <a class="pull-right btn btn-default btn-xs" data-nodrag ng-click="remove(this)"><span class="glyphicon glyphicon-remove"></span></a>
           <a class="pull-right btn btn-default btn-xs" data-nodrag ng-click="newSubItem(this)" style="margin-right: 8px;"><span class="glyphicon glyphicon-plus"></span></a>
         </div>

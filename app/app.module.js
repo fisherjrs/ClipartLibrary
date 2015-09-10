@@ -1,15 +1,21 @@
 
 var app = angular.module('clipartLibrary', [
   'ngRoute',
-  'clipartLibraryControllers',
-  'ui.tree']);
+  'libraryController',
+  'ui.tree',
+  'ngAnimate', 
+  'ui.bootstrap']);
 
 app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
+      when('/library', {
+        templateUrl: 'app/components/library/libraryView.html',
+        controller: 'LibraryController'
+      }).
       when('/home', {
         templateUrl: 'app/components/home/homeView.html',
-        controller: 'DesignController'
+        controller: 'LibraryController'
       }).
       when('/publish', {
         templateUrl: 'app/components/publish/publishView.html',

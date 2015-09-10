@@ -13,6 +13,7 @@
     <link href="assets/css/home-gallery.css" rel="stylesheet" media="screen" />
     <link rel="stylesheet" href="assets/css/angular-ui-tree.css">
     <link rel="stylesheet" href="assets/css/demo.css">
+    <link rel="stylesheet" href="assets/css/tree.css">
     <!--[if lt IE 9]>
       <script src="js/respond.min.js"></script>
     <![endif]-->
@@ -28,7 +29,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#/home">Library</a></li>
+            <li class="active"><a href="#/library">Library</a></li>
             <li><a href="#/publish">Publish</a></li>
             <li><a href="#/compare">Compare</a></li>
             <li><a href="#/seed">Seed</a></li>
@@ -51,6 +52,7 @@
                 <li><a href="#/uitree">UI-Tree</a></li>
                 <li><a href="connected-lists.html">Connected Lists</a></li>
                 <li><a href="editable-node-list.html">Editable Node List</a></li>
+                <li><a href="angular-uibootstrap-alert.html">Angular UIBootstrap Alert</a></li>
               </ul>
             </li>
           </ul>
@@ -59,17 +61,20 @@
     </nav>
     
   <ng-view></ng-view>
-  <!-- <div ng-view></div>
- -->
+
+  <!-- <div ng-view></div> -->
+
   <script src="assets/js/jquery/2.1.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-route.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.js"></script>
 
   <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 
   <script src="app/app.module.js"></script>
-  <script src="app/app.controllers.js"></script>
+  <script src="app/components/library/libraryController.js"></script>
   <script src="assets/js/angular-ui-tree.js"></script>
+  <script src="assets/js/ui-bootstrap-tpls-0.13.4.js"></script>
           
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
   <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js></script>
