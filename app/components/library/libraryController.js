@@ -11,8 +11,9 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
   $scope.items = ['item1', 'item2', 'item3'];
   $scope.alertAnimationsEnabled = true;
 
-     $scope.categoryEditMode = false;
-    $scope.selectedItemId = -1;
+  $scope.categoryEditMode = false;
+  $scope.selectedItemId = -1;
+  $scope.treeCollapsed = false;
 
 
   $scope.add = function(amount) { $scope.person.occupation = amount; };
@@ -112,6 +113,20 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
 
     $scope.uiTreeToggle = function(scope) {
       scope.toggle();
+    };
+
+    var getRootNodesScope = function() {
+      return angular.element(document.getElementById("tree2-root")).scope();
+    };
+
+    $scope.toggleAll = function(scope) {
+      var rootNodeScope = getRootNodesScope();
+      if($scope.treeCollapsed) {
+        rootNodeScope.expandAll();
+      } else {
+        rootNodeScope.collapseAll();
+      }
+      $scope.treeCollapsed = !$scope.treeCollapsed;
     };
 
     $scope.newSubItem = function(scope) {
@@ -215,4 +230,3 @@ libraryController.controller('ModalInstanceCtrl', function ($scope, $modalInstan
   };
 });
     
-

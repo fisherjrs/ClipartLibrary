@@ -6,7 +6,7 @@
   <div>       
 
     <button ng-click="getCategories(designId)" type="button" class="btn btn-sm btn-primary">Refresh</button>
-
+    <button ng-click="toggleAll()" type="button" class="btn btn-sm btn-primary">Toggle</button>
     <script type="text/ng-template" id="nodes_renderer3.html">
       <div class="tree-node">
         <div class="pull-left tree-handle" ui-tree-handle>
@@ -35,8 +35,8 @@
     </script> 
 
 
-    <div ui-tree id="tree2-root">
-      <ol ui-tree-nodes="" ng-model="categoryDefinition">
+    <div ui-tree id="tree2-root" data-max-depth="2">
+      <ol ui-tree-nodes="" ng-model="categoryDefinition" >
         <li ng-repeat="item in categoryDefinition" ui-tree-node ng-include="'nodes_renderer3.html'"></li>
       </ol>
     </div>
@@ -58,6 +58,8 @@
     </div>
   </div>   
   
+  <div ui-image id="uiimage2">
+  </div>
 
   <!-- <div ng-show="categoryId && !imageDefinition"> -->
   <div>
