@@ -5,34 +5,55 @@ var angularImage = angular.module('ui.image', [])
       levelThreshold: 30
     });
 
-    angularImage.controller('ImageController', ['$scope', '$element',
-      function ($scope, $element) {
-        this.scope = $scope;
+    angularImage.controller('ImageController', ['$scope', function ($scope) {
+        $scope.img1 = { 
+          src : "http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/3.jpg" ,
+          name : "jardin",
+          id : "3456781"
+        };
+      }]);
+    
 
-        $scope.$element = $element;
-        $scope.$nodeScope = null;
-        $scope.$type = 'uiImage';
-
-      }
-    ]);
-
-
-    angularImage.directive('uiImage', ['imageConfig', '$window',
-      function (imageConfig, $window) {
+    angularImage.directive('libraryImage', ['$document', function ($document) {
         return {
-          restrict: 'A',
-          scope: true,
-          controller: 'ImageController',
-          template: '<img src="http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/3.jpg" />',
-          link: function (scope, element, attrs, ctrl) {
-            var callbacks = {
-              accept: null,
-              beforeDrag: null
-            },
-            config = {};
-            angular.extend(config, imageConfig);
+          restrict: 'E',
+          scope: {
+            info: '=info'
+          },
+          templateUrl: 'http://localhost/workspaces/javascript/loft/ClipartLibrary/app/shared/libraryImage.html',
+          link: function(scope, element, attr) {
+            var startX = 0, startY = 0, x = 0, y = 0;
+
+            element.css({
+             position: 'relative',
+             border: '1px solid red',
+             backgroundColor: 'lightgrey',
+             cursor: 'pointer'
+            });
+
+            element.on('mousedown', function(event) {
+              // Prevent default dragging of selected content
+              event.preventDefault();
+              startX = event.pageX - x;
+              startY = event.pageY - y;
+              $document.on('mousemove', mousemove);
+              $document.on('mouseup', mouseup);
+            });
+
+            function mousemove(event) {
+              y = event.pageY - startY;
+              x = event.pageX - startX;
+              element.css({
+                top: y + 'px',
+                left:  x + 'px'
+              });
+            }
+
+            function mouseup() {
+              $document.off('mousemove', mousemove);
+              $document.off('mouseup', mouseup);
+            }
           }
         };
-      }
-    ]);
+      }]);
 

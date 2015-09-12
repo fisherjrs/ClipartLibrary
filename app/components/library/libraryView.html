@@ -48,18 +48,25 @@
 <div class="leftColumn">
 
   <div ng-show="imageDefinition" class="gallery">
-    <div class="wrap">
-      <div class="box" ng-repeat="image in imageDefinition">
-        <div class="boxInner">
-          <img src="{{image.src}}" />
-          <div class="titleBox">{{image.name}}</div>
+    <div >
+      <div  ng-repeat="image in imageDefinition">
+        <div >
+          <!-- <img src="{{image.src}}" />
+          <div class="titleBox">{{image.name}}</div> -->
+          <library-image  id="uiimage2" info="image"></library-image>
         </div>
       </div>
     </div>
   </div>   
   
-  <div ui-image id="uiimage2">
-  </div>
+    
+        <div  ng-controller="ImageController">
+          <library-image  id="uiimage2" info="img1"></library-image>
+        </div>
+      
+    
+
+  
 
   <!-- <div ng-show="categoryId && !imageDefinition"> -->
   <div>
