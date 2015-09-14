@@ -5,7 +5,8 @@ var app = angular.module('clipartLibrary', [
   'ui.tree',
   'ngAnimate', 
   'ui.bootstrap',
-  'ui.image']);
+  'ui.image',
+  'ui.imageDetail']);
 
 
 
