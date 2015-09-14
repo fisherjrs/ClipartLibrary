@@ -15,6 +15,9 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
   $scope.selectedItemId = -1;
   $scope.treeCollapsed = false;
 
+  $scope.detailHandler = function(scope) {
+    alert("Go!");
+  };
 
   $scope.add = function(amount) { $scope.person.occupation = amount; };
   $scope.hello = function(amount) {

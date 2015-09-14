@@ -5,13 +5,17 @@ var angularImage = angular.module('ui.image', [])
       levelThreshold: 30
     });
 
-    angularImage.controller('ImageController', ['$scope', function ($scope) {
+    angularImage.controller('ImageController', function ($scope) {
         $scope.img1 = { 
           src : "http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/3.jpg" ,
           name : "jardin",
           id : "3456781"
         };
-      }]);
+
+        $scope.detailHandler = function(scope) {
+          alert("Go! ImageController.");
+        };
+      });
     
 
     angularImage.directive('libraryImage', ['$document', function ($document) {
@@ -20,6 +24,7 @@ var angularImage = angular.module('ui.image', [])
           scope: {
             info: '=info'
           },
+          controller : 'ImageController',
           templateUrl: 'http://localhost/workspaces/javascript/loft/ClipartLibrary/app/shared/libraryImage.html',
           link: function(scope, element, attr) {
             var startX = 0, startY = 0, x = 0, y = 0;
