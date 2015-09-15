@@ -36,7 +36,7 @@ var angularImageDetail = angular.module('ui.imageDetail', [])
              border: '1px solid red',
              backgroundColor: 'lightgrey',
              cursor: 'pointer'
-            });            
+            });          
           }
         };
       }]);

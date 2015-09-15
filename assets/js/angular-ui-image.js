@@ -13,7 +13,8 @@ var angularImage = angular.module('ui.image', [])
         };
 
         $scope.detailHandler = function(scope) {
-          alert("Go! ImageController.");
+          //alert("Go! ImageController.");
+          scope.$parent.imageHandler(scope.info);
         };
       });
     

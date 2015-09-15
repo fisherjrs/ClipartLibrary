@@ -15,8 +15,13 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
   $scope.selectedItemId = -1;
   $scope.treeCollapsed = false;
 
-  $scope.detailHandler = function(scope) {
-    alert("Go!");
+  $scope.imageDetailSelected = false;
+  $scope.selectedImage = null;
+
+  $scope.imageHandler = function(scope) {
+    alert("Go! LibraryController.detailHandler. " + scope.id);
+    $scope.imageDetailSelected = true;
+    $scope.selectedImage = scope;
   };
 
   $scope.add = function(amount) { $scope.person.occupation = amount; };

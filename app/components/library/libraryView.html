@@ -56,6 +56,8 @@
         </div>
       </div>
     </div>   
+
+ 
     
     <div ng-show="categoryId && !imageDefinition"> 
       <p>It appears that no images are part of this category: {{categoryId}}. If you loaded your design definition from a local json file then you can search the file for this categoryId to investigate the problem. Otherwise, you'll need to consult the database.
@@ -77,8 +79,11 @@
       <library-image  id="uiimage2" info="img1"></library-image>
     </div>
 
-    <div  ng-controller="ImageDetailController">
+   <!--  <div  ng-controller="ImageDetailController">
       <library-image-detail  id="uiimagedetail2" info="img1"></library-image-detail>
+    </div> -->
+    <div  ng-show="imageDetailSelected">
+      <library-image-detail  id="uiimagedetail2" info="selectedImage"></library-image-detail>
     </div>
   </div>
 
