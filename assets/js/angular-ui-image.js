@@ -14,7 +14,8 @@ var angularImage = angular.module('ui.image', [])
 
         $scope.detailHandler = function(scope) {
           //alert("Go! ImageController.");
-          scope.$parent.imageHandler(scope.info);
+          //scope.$parent.imageHandler(scope.info);
+          scope.$emit('image:detailOpen', scope.info);
         };
       });
     

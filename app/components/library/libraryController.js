@@ -18,11 +18,11 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
   $scope.imageDetailSelected = false;
   $scope.selectedImage = null;
 
-  $scope.imageHandler = function(scope) {
+  $scope.$on('image:detailOpen', function(evt, scope) {
     alert("Go! LibraryController.detailHandler. " + scope.id);
     $scope.imageDetailSelected = true;
     $scope.selectedImage = scope;
-  };
+  });
 
   $scope.add = function(amount) { $scope.person.occupation = amount; };
   $scope.hello = function(amount) {
