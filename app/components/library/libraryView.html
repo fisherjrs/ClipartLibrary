@@ -62,7 +62,13 @@
     <div ng-show="categoryId && !imageDefinition"> 
       <p>It appears that no images are part of this category: {{categoryId}}. If you loaded your design definition from a local json file then you can search the file for this categoryId to investigate the problem. Otherwise, you'll need to consult the database.
     </div>
-  	
+
+   
+    <div  class="image-detail-main" ng-show="imageDetailSelected">
+      <library-image-detail  id="uiimagedetail2" info="selectedImage"></library-image-detail>
+    </div>
+
+    	
   </div>
 
   <div class="rightColumn">
@@ -75,20 +81,14 @@
     <button type="button" class="btn btn-default" ng-click="toggleAnimation()">Toggle Animation ({{ alertAnimationsEnabled }})</button>
     <div ng-show="selected">Selection from a modal: {{ selected }}</div>
 
-    <div  ng-controller="ImageController">
-      <library-image  id="uiimage2" info="img1"></library-image>
-    </div>
+    <button type="button" class="btn btn-default" ng-click="openAddImageDialogue(this, 'lg', selectedCategory)">Add2</button>
 
-   <!--  <div  ng-controller="ImageDetailController">
-      <library-image-detail  id="uiimagedetail2" info="img1"></library-image-detail>
-    </div> -->
-    <div  ng-show="imageDetailSelected">
-      <library-image-detail  id="uiimagedetail2" info="selectedImage"></library-image-detail>
-    </div>
+
+  
+   
   </div>
 
 </div>
-
 
      <script type="text/ng-template" id="myModalContent.html">
          <div class="modal-header">
@@ -104,6 +104,36 @@
              </ul>
              Selected: <b>{{ selected.item }}</b>
          </div>
+         <div class="modal-footer">
+             <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+             <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+         </div>
+     </script>
+
+     <script type="text/ng-template" id="imageAddDialogue.html">
+         <div class="modal-header">
+             <h3 class="modal-title">Add Images</h3>
+         </div>
+         <div class="modal-body">
+             Select images from your computer or network resource.
+             They will be uploaded to a central image repository. 
+             From there they will be added to the clipart library when you publish your changes.
+             <form>
+                <div class="form-group">
+                  <label for="categoryName">Category Name  </label>
+                  <input type="text" class="form-control" id="categoryName" placeholder="category name" value="{{category.categoryName}}">
+                </div>
+                
+                <div class="form-group">
+                  <label for="exampleInputFile">File input</label>
+                  <input type="file" id="exampleInputFile">
+                </div>
+                
+                <button type="submit" class="btn btn-default">Submit</button>
+             </form>
+             
+         </div>
+
          <div class="modal-footer">
              <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
              <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>

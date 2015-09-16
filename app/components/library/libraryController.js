@@ -8,21 +8,30 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
   $scope.mode = 'offline';
   $scope.designId = 9;
 
-  $scope.items = ['item1', 'item2', 'item3'];
+  $scope.items = ['itemzzz', 'item2', 'item3'];
   $scope.alertAnimationsEnabled = true;
 
   $scope.categoryEditMode = false;
   $scope.selectedItemId = -1;
+  $scope.selectedCategory = null;
   $scope.treeCollapsed = false;
 
   $scope.imageDetailSelected = false;
   $scope.selectedImage = null;
 
-  $scope.$on('image:detailOpen', function(evt, scope) {
-    alert("Go! LibraryController.detailHandler. " + scope.id);
+  $scope.showAddImageDialogue = true;
+
+  $scope.$on('image:detailOpen', function(event, scope) {
     $scope.imageDetailSelected = true;
     $scope.selectedImage = scope;
   });
+
+  $scope.$on('image:detailClose', function(event, scope) {
+    $scope.imageDetailSelected = false;
+    $scope.selectedImage = null;
+  });  
+  
+
 
   $scope.add = function(amount) { $scope.person.occupation = amount; };
   $scope.hello = function(amount) {
@@ -157,6 +166,7 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
 
      $scope.selectItem = function(scope) {
       var nodeData = scope.$modelValue;
+      $scope.selectedCategory = nodeData;
       //only apply image source for subset of image array to avoid loading all images at once.
       images = nodeData.imageList;
       if(images != null) {
@@ -217,7 +227,37 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
     $scope.alertAnimationsEnabled = !$scope.alertAnimationsEnabled;
   };
 
+  $scope.openAddImageDialogue = function(scope, size, category) {
+     var modalInstance = $modal.open({
+      animation: $scope.alertAnimationsEnabled,
+      templateUrl: 'imageAddDialogue.html',
+      controller: 'AddImageController',
+      size: size,
+      category: category,
+      resolve: {
+        items: function () {
+          return $scope.items;
+        },
+        category : function () {
+          return $scope.selectedCategory;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+      $scope.categoryEditMode = false;
+      $scope.selectedItemId = null;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+      $scope.categoryEditMode = false;
+      $scope.selectedItemId = null;
+    });
+  }
+
 });
+
+
 
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.
@@ -228,6 +268,23 @@ libraryController.controller('ModalInstanceCtrl', function ($scope, $modalInstan
   $scope.selected = {
     item: $scope.items[0]
   };
+
+  $scope.ok = function () {
+    $modalInstance.close($scope.selected.item);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+});
+
+libraryController.controller('AddImageController', function ($scope, $modalInstance, items, category) {
+
+  $scope.items = items;
+  $scope.selected = {
+    item: $scope.items[0]
+  };
+  $scope.category = category;
 
   $scope.ok = function () {
     $modalInstance.close($scope.selected.item);

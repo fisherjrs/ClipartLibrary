@@ -14,14 +14,15 @@ var angularImageDetail = angular.module('ui.imageDetail', [])
         };
 
         $scope.closeImageDetail = function(scope) {
-          alert("Go! ImageDetailController.");
+          //alert("Go! ImageController.");
+          //scope.$parent.imageHandler(scope.info);
+          scope.$emit('image:detailClose', scope.info);
         };
       });
     
 
     angularImageDetail.directive('libraryImageDetail', ['$document', function ($document) {
         return {
-          require: '^libraryImage',
           restrict: 'E',
           scope: {
             info: '=info'
