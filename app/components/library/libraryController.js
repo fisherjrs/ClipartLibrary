@@ -278,13 +278,39 @@ libraryController.controller('ModalInstanceCtrl', function ($scope, $modalInstan
   };
 });
 
-libraryController.controller('AddImageController', function ($scope, $modalInstance, items, category) {
+libraryController.controller('AddImageController', function ($scope, $modalInstance, Upload, $timeout, items, category) {
 
   $scope.items = items;
   $scope.selected = {
     item: $scope.items[0]
   };
   $scope.category = category;
+
+  $scope.uploadFiles = function(files) {
+        $scope.files = files;
+        angular.forEach(files, function(file) {
+            if (file && !file.$error) {
+            file.upload = Upload.upload({
+                  url: 'http://localhost:9000/conduitservices/intermediateupload.json',
+                  file: file
+                });
+
+                file.upload.then(function (response) {
+                  $timeout(function () {
+                    file.result = response.data;
+                  });
+                }, function (response) {
+                  if (response.status > 0)
+                    $scope.errorMsg = response.status + ': ' + response.data;
+                });
+
+                file.upload.progress(function (evt) {
+                  file.progress = Math.min(100, parseInt(100.0 * 
+                                           evt.loaded / evt.total));
+                });
+        }   
+        });
+    }
 
   $scope.ok = function () {
     $modalInstance.close($scope.selected.item);

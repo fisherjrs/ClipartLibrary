@@ -6,7 +6,8 @@ var app = angular.module('clipartLibrary', [
   'ngAnimate', 
   'ui.bootstrap',
   'ui.image',
-  'ui.imageDetail']);
+  'ui.imageDetail',
+  'ngFileUpload']);
 
 
 
