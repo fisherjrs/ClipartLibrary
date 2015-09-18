@@ -288,10 +288,12 @@ libraryController.controller('AddImageController', function ($scope, $modalInsta
 
   $scope.uploadFiles = function(files) {
         $scope.files = files;
+        $scope.imageName = 'fred.jpg';
         angular.forEach(files, function(file) {
             if (file && !file.$error) {
             file.upload = Upload.upload({
                   url: 'http://localhost:9000/conduitservices/intermediateupload.json',
+                  fields: {imageName: $scope.imageName, categoryName: $scope.category.categoryName, categoryId: $scope.category.id},
                   file: file
                 });
 
