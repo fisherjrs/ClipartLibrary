@@ -133,9 +133,9 @@
               </select>
             </div>
 
-            <div class="btn btn-default" ngf-select ng-model="files" ngf-multiple="true" ng-show="!files">Select</div>
+            <div class="btn btn-default" ngf-select ng-model="selectedFiles" ngf-multiple="true" ng-show="selectedFiles.length==0">Select</div>
            
-            <table class="table table-striped" ng-show="files">
+            <table class="table table-striped" ng-show="selectedFiles">
               <tr>
                 <td>
                   image
@@ -150,7 +150,7 @@
                   
                 </td>
               </tr>
-              <tr ng-repeat="file in files">
+              <tr ng-repeat="file in selectedFiles">
                 <td>
                   <img ngf-src="file" class="thumb" style="width: 60px; height=60px;">
                 </td>
@@ -161,8 +161,8 @@
                   <input type="text" name="tags" value=""/> 
                 </td>
                 <td>
-                   <a class="pull-right btn btn-danger btn-xs" ng-click="removeFileItem(files, $index)"><span class="glyphicon glyphicon-remove"></span></a>
-                   <a class="pull-right btn btn-danger btn-xs" ng-click="gatherItems(files, $index, 'imagesForm')"><span class="glyphicon glyphicon-remove"></span></a>
+                   <a class="pull-right btn btn-danger btn-xs" ng-click="removeFileItem(selectedFiles, $index)"><span class="glyphicon glyphicon-remove"></span></a>
+                   <a class="pull-right btn btn-danger btn-xs" ng-click="gatherItems(selectedFiles, $index, 'imagesForm')"><span class="glyphicon glyphicon-remove"></span></a>
                 </td>
               </tr>
             </table>              
@@ -171,8 +171,8 @@
         </div>
 
         <div class="modal-footer">
-          <button ng-click="uploadFiles(files)" class="btn btn-primary" ng-show="files">Upload</button>
-          <button ng-click="files = null" class="btn btn-primary" ng-show="files">Clear</button>
+          <button ng-click="uploadFiles(selectedFiles)" class="btn btn-primary" ng-show="selectedFiles">Upload</button>
+          <button ng-click="selectedFiles = null" class="btn btn-primary" ng-show="selectedFiles">Clear</button>
           <button class="btn btn-warning" type="button" ng-click="cancel()">Close</button>
         </div>
      </script>

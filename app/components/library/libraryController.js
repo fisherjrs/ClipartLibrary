@@ -340,6 +340,8 @@ libraryController.controller('AddImageController', function ($scope, $modalInsta
   $scope.category = category;
 
   $scope.modalCategories = [];
+
+  $scope.selectedFiles = [];
   
   angular.forEach(categories, function(categoryItem) {
     flattenCategoryList($scope.modalCategories, categoryItem)   
@@ -398,7 +400,7 @@ libraryController.controller('AddImageController', function ($scope, $modalInsta
   $scope.gatherItems = function(files, scope, imagesForm) {
       var element = angular.element(imagesForm);
       console.log(element.elements.length);
-      
+
       // for (var i = 0, element; element = elements[i++];) {
       //     if (element.type === "text")
       //         console.log("form field " + element.value);
