@@ -19,6 +19,38 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
   $scope.imageDetailSelected = false;
   $scope.selectedImage = null;
 
+  $scope.testImageDefinition =  {
+                    "id": "677324678",
+                    "name": "PA-3844",
+                    "height": "4000",
+                    "width": "3500",
+                    "statuscode": "A",
+                    "defaultrotation": "0",
+                    "used": "false",
+                    "missingnamesflag": "false",
+                    "displayname": "PA-3844",
+                    "imagedesignid": "9",
+                    "cropmethod": "STRETCHBMP",
+                    "imagetype": "CLIPART",
+                    "syncind": "Y",
+                    "filetype": "TIF",
+                    "sourcecolorspace": "RGB",
+                    "istransparent": "true",
+                    "locator": "TRY1-9-128166993",
+                    "id": "19638043",
+                    "systemname": "PLANT",
+                    "uploaddate": "20150404",
+                    "indexflag": "true",
+                    "exempt": "false",
+                    "whitepoint": "1.0",
+                    "blackpoint": "0.0",
+                    "midpoint": "1.0",
+                    "saturationboost": "0.15",
+                    "size": "3500x4000",
+                    "src" : "http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/7.jpg",
+                    "srccdn" : "http://images.cdn.yearbookavenue.jostens.com/services/getimage?locator=TRY1-9-128166993&quality=thumbnail"
+                }
+
   $scope.showAddImageDialogue = true;
 
   $scope.$on('image:detailOpen', function(event, scope) {
@@ -29,9 +61,15 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
   $scope.$on('image:detailClose', function(event, scope) {
     $scope.imageDetailSelected = false;
     $scope.selectedImage = null;
-  });  
-  
+  });
 
+  $scope.$on('image:addImage', function(event, categoryId, imageDefinition) {
+    angular.forEach($scope.categoryDefinition, function(category){
+      if(category.id == categoryId) {
+        category.imageList.push(imageDefinition);
+      } 
+    });
+  });
 
   $scope.add = function(amount) { $scope.person.occupation = amount; };
   $scope.hello = function(amount) {
@@ -82,6 +120,14 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
         }
       }
   };
+
+  $scope.addImageToCategory = function(categoryId, imageDefinition) {
+    angular.forEach($scope.categoryDefinition, function(category){
+      if(category.id == categoryId) {
+        category.imageList.push(imageDefinition);
+      } 
+    });
+  }
 
   $scope.list = [{
       "id": 1,
@@ -232,6 +278,7 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
       animation: $scope.alertAnimationsEnabled,
       templateUrl: 'imageAddDialogue.html',
       controller: 'AddImageController',
+      scope: scope,
       size: size,
       category: category,
       resolve: {
@@ -240,6 +287,9 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
         },
         category : function () {
           return $scope.selectedCategory;
+        },
+        categories : function () {
+          return $scope.categoryDefinition;
         }
       }
     });
@@ -254,6 +304,9 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
       $scope.selectedItemId = null;
     });
   }
+
+  //Functions to run as page loads ... kinda like init();
+  $scope.getCategories($scope.designId); 
 
 });
 
@@ -278,7 +331,7 @@ libraryController.controller('ModalInstanceCtrl', function ($scope, $modalInstan
   };
 });
 
-libraryController.controller('AddImageController', function ($scope, $modalInstance, Upload, $timeout, items, category) {
+libraryController.controller('AddImageController', function ($scope, $modalInstance, Upload, $timeout, items, category, categories) {
 
   $scope.items = items;
   $scope.selected = {
@@ -286,31 +339,47 @@ libraryController.controller('AddImageController', function ($scope, $modalInsta
   };
   $scope.category = category;
 
+  $scope.modalCategories = [];
+  
+  angular.forEach(categories, function(categoryItem) {
+    flattenCategoryList($scope.modalCategories, categoryItem)   
+  });
+
+  $scope.designId = 9; 
+
+
   $scope.uploadFiles = function(files) {
         $scope.files = files;
-        $scope.imageName = 'fred.jpg';
         angular.forEach(files, function(file) {
-            if (file && !file.$error) {
-            file.upload = Upload.upload({
-                  url: 'http://localhost:9000/conduitservices/intermediateupload.json',
-                  fields: {imageName: $scope.imageName, categoryName: $scope.category.categoryName, categoryId: $scope.category.id},
-                  file: file
-                });
+          if (file && !file.$error) {
+              
+              file.upload = Upload.upload({
+                url: 'http://localhost:9000/conduitservices/intermediateupload.json',
+                fields: {designId: $scope.designId, imageName: file.name, categoryName: $scope.category.categoryName, categoryId: $scope.category.id},
+                file: file
+              });
 
-                file.upload.then(function (response) {
-                  $timeout(function () {
-                    file.result = response.data;
+              file.upload.then(function (response) {
+                $timeout(function () {
+                  file.result = response.data;                  
+
+                  //Notify the listeners that we've add a new image.      ... hardcoded for now until we find a real image url
+                  $scope.$emit('image:addImage', $scope.category.id, {
+                    "id" : file.name, 
+                    "src" : "http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/7.jpg",
+                    "srccdn" : "http://images.cdn.yearbookavenue.jostens.com/services/getimage?locator=TRY1-9-128166993&quality=thumbnail" });
                   });
-                }, function (response) {
-                  if (response.status > 0)
-                    $scope.errorMsg = response.status + ': ' + response.data;
-                });
+              
+              }, function (response) {
+                if (response.status > 0)
+                  $scope.errorMsg = response.status + ': ' + response.data;
+              });
 
-                file.upload.progress(function (evt) {
-                  file.progress = Math.min(100, parseInt(100.0 * 
-                                           evt.loaded / evt.total));
-                });
-        }   
+              file.upload.progress(function (evt) {
+                file.progress = Math.min(100, parseInt(100.0 * 
+                                         evt.loaded / evt.total));
+              });
+          }   
         });
     }
 
@@ -321,5 +390,32 @@ libraryController.controller('AddImageController', function ($scope, $modalInsta
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
+
+  $scope.removeFileItem = function(files, scope) {
+      files.splice(scope, 1); 
+  }
+
+  $scope.gatherItems = function(files, scope, imagesForm) {
+      var element = angular.element(imagesForm);
+      console.log(element.elements.length);
+      
+      // for (var i = 0, element; element = elements[i++];) {
+      //     if (element.type === "text")
+      //         console.log("form field " + element.value);
+      // }
+  }  
+
+
+  function flattenCategoryList(flattenedList, categoryItem) {
+    flattenedList.push(categoryItem);
+    if(categoryItem.categoryList && categoryItem.categoryList.length) {
+      angular.forEach(categoryItem.categoryList, function(categorySubItem) {
+        flattenCategoryList(flattenedList, categorySubItem)   
+      });
+    }
+  };
 });
+
+
+
     

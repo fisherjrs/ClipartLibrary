@@ -47,11 +47,11 @@
 
   <div class="leftColumn">
 
-    <div ng-show="imageDefinition" class="gallery">
-      <div >
-        <div  ng-repeat="image in imageDefinition">
+    <div ng-show="imageDefinition">
+      <div class="wrap">
+        <div ng-repeat="image in imageDefinition" class="box">
           <div >
-            <library-image  id="uiimage2" info="image"></library-image>
+            <library-image  id="uiimage2" info="image" class="boxInner"></library-image>
           </div>
         </div>
       </div>
@@ -81,7 +81,8 @@
     <button type="button" class="btn btn-default" ng-click="toggleAnimation()">Toggle Animation ({{ alertAnimationsEnabled }})</button>
     <div ng-show="selected">Selection from a modal: {{ selected }}</div>
 
-    <button type="button" class="btn btn-default" ng-click="openAddImageDialogue(this, 'lg', selectedCategory)">Add2</button>
+    <button type="button" class="btn btn-default" ng-click="openAddImageDialogue(this, 'lg', selectedCategory)">Image Upload</button>
+    <button type="button" class="btn btn-default" ng-click="addImageToCategory(selectedCategory.id, testImageDefinition)">Add Image</button>
 
 
   
@@ -111,48 +112,67 @@
      </script>
 
      <script type="text/ng-template" id="imageAddDialogue.html">
-         <div class="modal-header">
-             <h3 class="modal-title">Add Images</h3>
-         </div>
-         <div class="modal-body">
-             Select images from your computer or network resource.
-             They will be uploaded to a central image repository. 
-             From there they will be added to the clipart library when you publish your changes.
-             <!--
-             <form>
-                <div class="form-group">
-                  <label for="categoryName">Category Name  </label>
-                  <input type="text" class="form-control" id="categoryName" placeholder="category name" value="{{category.categoryName}}">
-                </div>
-                
-                <div class="form-group">
-                  <label for="exampleInputFile">File input</label>
-                  <input type="file" id="exampleInputFile">
-                </div>
-                
-                <button type="submit" class="btn btn-default">Submit</button>
-             </form>
-             -->
-            <button ngf-select="uploadFiles($files)" multiple
-               accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
-                Select Files</button>
-            <br><br>
-            Files:
-            <ul>
-              <li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
-                <span class="progress" ng-show="f.progress >= 0">
-                  <div style="width:{{f.progress}}%"  
-                      ng-bind="f.progress + '%'"></div>
-                </span>
-              </li>     
-            </ul>
-            <button ng-click="uploadPic(files)">Submit</button>
-            {{errorMsg}}
-             
-         </div>
+       <div class="modal-header">
+           <h3 class="modal-title">Add Images</h3>
+       </div>
+       <div class="modal-body">
+         Select images from your computer or network resource. <br>
+         They will be uploaded to a temporary central image repository.<br> 
+         They are not added to the permanent clipart library until you publish your changes.
 
-         <div class="modal-footer">
-             <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-             <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-         </div>
+          <form name="imagesForm">
+            <div class="form-group">
+              <select class="form-control" name="category" style="width: 300px;">
+                <option value=""  disabled >Select category</option>
+                <option 
+                  ng-repeat="categoryListItem in modalCategories" 
+                  value="{{category.id}}" 
+                  ng-selected="category.categoryName == categoryListItem.categoryName">
+                    {{categoryListItem.categoryName}}
+                </option>
+              </select>
+            </div>
+
+            <div class="btn btn-default" ngf-select ng-model="files" ngf-multiple="true" ng-show="!files">Select</div>
+           
+            <table class="table table-striped" ng-show="files">
+              <tr>
+                <td>
+                  image
+                </td>
+                <td>
+                  display name
+                </td>
+                <td>
+                  tags
+                </td>
+                <td>
+                  
+                </td>
+              </tr>
+              <tr ng-repeat="file in files">
+                <td>
+                  <img ngf-src="file" class="thumb" style="width: 60px; height=60px;">
+                </td>
+                <td>
+                  <input type="text" name="imageName" value="{{file.name}}"/> 
+                </td>
+                <td>
+                  <input type="text" name="tags" value=""/> 
+                </td>
+                <td>
+                   <a class="pull-right btn btn-danger btn-xs" ng-click="removeFileItem(files, $index)"><span class="glyphicon glyphicon-remove"></span></a>
+                   <a class="pull-right btn btn-danger btn-xs" ng-click="gatherItems(files, $index, 'imagesForm')"><span class="glyphicon glyphicon-remove"></span></a>
+                </td>
+              </tr>
+            </table>              
+          </form>
+             
+        </div>
+
+        <div class="modal-footer">
+          <button ng-click="uploadFiles(files)" class="btn btn-primary" ng-show="files">Upload</button>
+          <button ng-click="files = null" class="btn btn-primary" ng-show="files">Clear</button>
+          <button class="btn btn-warning" type="button" ng-click="cancel()">Close</button>
+        </div>
      </script>
