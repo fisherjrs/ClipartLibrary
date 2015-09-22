@@ -349,6 +349,9 @@ libraryController.controller('AddImageController', function ($scope, $modalInsta
 
   $scope.designId = 9; 
 
+  $scope.uploadFilesForm = function(uploadImage) {
+    $scope.files = uploadImage;
+  }
 
   $scope.uploadFiles = function(files) {
         $scope.files = files;
@@ -399,7 +402,6 @@ libraryController.controller('AddImageController', function ($scope, $modalInsta
 
   $scope.gatherItems = function(files, scope, imagesForm) {
       var element = angular.element(imagesForm);
-      console.log(element.elements.length);
 
       // for (var i = 0, element; element = elements[i++];) {
       //     if (element.type === "text")

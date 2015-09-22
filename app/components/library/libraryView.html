@@ -120,7 +120,7 @@
          They will be uploaded to a temporary central image repository.<br> 
          They are not added to the permanent clipart library until you publish your changes.
 
-          <form name="imagesForm">
+          <form name="imagesForm" novalidate class="simple-form">
             <div class="form-group">
               <select class="form-control" name="category" style="width: 300px;">
                 <option value=""  disabled >Select category</option>
@@ -152,22 +152,23 @@
               </tr>
               <tr ng-repeat="file in selectedFiles">
                 <td>
-                  <img ngf-src="file" class="thumb" style="width: 60px; height=60px;">
+                  <img ngf-src="file" class="thumb"  style="width: 60px; height=60px;">
                 </td>
                 <td>
-                  <input type="text" name="imageName" value="{{file.name}}"/> 
+                  <input type="text" name="imageName_{{$index}}" ng-model="uploadImage.imageName" value="{{file.name}}"/> 
                 </td>
                 <td>
-                  <input type="text" name="tags" value=""/> 
+                  <input type="text" name="tags_{{$index}}" ng-model="uploadImage.tags" value=""/> 
                 </td>
                 <td>
                    <a class="pull-right btn btn-danger btn-xs" ng-click="removeFileItem(selectedFiles, $index)"><span class="glyphicon glyphicon-remove"></span></a>
                    <a class="pull-right btn btn-danger btn-xs" ng-click="gatherItems(selectedFiles, $index, 'imagesForm')"><span class="glyphicon glyphicon-remove"></span></a>
                 </td>
               </tr>
-            </table>              
+            </table>  
+             <input type="submit" ng-click="uploadFilesForm(uploadImage)" value="Save" />            
           </form>
-             
+             <pre>user = {{uploadImage | json}}</pre>
         </div>
 
         <div class="modal-footer">
