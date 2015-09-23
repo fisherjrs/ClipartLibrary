@@ -26,9 +26,9 @@
 
 <form name="userForm" novalidate >
   <!-- <input type="text"  ng-model="uploadImage.tags"/> -->
-  <div class="form-group" ng-repeat="row in items">
+  <div class="form-group" ng-repeat="user in formDataTwo.users">
     <ng-form name="userFieldForm">
-      <input type="text" name='fgo' class="form-control" ng-model="uploadImage.imageName"/>
+      <input type="text" name='fgo' class="form-control" ng-model="user.tags" />
     </ng-form>
   </div>
  <!--  <table >
@@ -48,16 +48,27 @@
       
   </tr>
   </table> -->
-  <input type="submit" ng-click="uploadFilesForm(uploadImage)" value="Save" />       
+  <input type="submit" ng-click="uploadFilesForm(items)" value="Save" />       
 </form>
-<pre>uploadimage = {{uploadImage | json}}</pre>
+<pre>formdata = {{formDataTwo}}</pre>
 </div>
 <script>
   angular.module('formExample', [])
     .controller('ExampleController', ['$scope', function($scope) {
       $scope.master = {};
-      $scope.items = ['itemzzz'];
-
+       var users = [
+      { 
+        name: 'Chris',
+        email: ''
+      },
+      {
+        name: 'Holly',
+        email: ''
+      }
+  ];  
+  
+  $scope.formDataTwo = {};
+  $scope.formDataTwo.users = users;
       $scope.update = function(user) {
         $scope.master = angular.copy(user);
       };

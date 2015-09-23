@@ -349,10 +349,6 @@ libraryController.controller('AddImageController', function ($scope, $modalInsta
 
   $scope.designId = 9; 
 
-  $scope.uploadFilesForm = function(uploadImage) {
-    $scope.files = uploadImage;
-  }
-
   $scope.uploadFiles = function(files) {
         $scope.files = files;
         angular.forEach(files, function(file) {
@@ -370,9 +366,10 @@ libraryController.controller('AddImageController', function ($scope, $modalInsta
 
                   //Notify the listeners that we've add a new image.      ... hardcoded for now until we find a real image url
                   $scope.$emit('image:addImage', $scope.category.id, {
-                    "id" : file.name, 
-                    "src" : "http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/7.jpg",
-                    "srccdn" : "http://images.cdn.yearbookavenue.jostens.com/services/getimage?locator=TRY1-9-128166993&quality=thumbnail" });
+                    "id" : -1,
+                    "displayName" : file.displayName, 
+                    "src" : file.result.url,
+                    "srccdn" : "" });
                   });
               
               }, function (response) {
@@ -399,16 +396,6 @@ libraryController.controller('AddImageController', function ($scope, $modalInsta
   $scope.removeFileItem = function(files, scope) {
       files.splice(scope, 1); 
   }
-
-  $scope.gatherItems = function(files, scope, imagesForm) {
-      var element = angular.element(imagesForm);
-
-      // for (var i = 0, element; element = elements[i++];) {
-      //     if (element.type === "text")
-      //         console.log("form field " + element.value);
-      // }
-  }  
-
 
   function flattenCategoryList(flattenedList, categoryItem) {
     flattenedList.push(categoryItem);

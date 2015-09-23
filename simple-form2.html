@@ -1,6 +1,5 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.0/angular.min.js"></script>
-
 <div class="container" ng-app="dynamicFormApp" ng-controller="mainController">
   
   <div class="page-header">
@@ -14,7 +13,7 @@
           
         <ng-form name="userFieldForm">
             <label>{{ user.name }}'s Email</label>
-            <input type="email" class="form-control" name="email" ng-model="user.email" required>
+            <input type="email" class="form-control" name="email" ng-model="user.email"  required>
             <p class="help-block" ng-show="userFieldForm.email.$invalid">Valid Email Required</p>
         </ng-form>
           
