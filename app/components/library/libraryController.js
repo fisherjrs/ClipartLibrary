@@ -47,8 +47,8 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
                     "midpoint": "1.0",
                     "saturationboost": "0.15",
                     "size": "3500x4000",
-                    "src" : "http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/images/demo/7.jpg",
-                    "srccdn" : "http://images.cdn.yearbookavenue.jostens.com/services/getimage?locator=TRY1-9-128166993&quality=thumbnail"
+                    "src" : "http://localhost:9000/conduitservices/getdesignimage?uri=Chrysanthemum.jpg",
+                    "srccdn" : "http://localhost:9000/conduitservices/getdesignimage?uri=Chrysanthemum.jpg&locator=TRY1-9-128166993&quality=thumbnail"
                 }
 
   $scope.showAddImageDialogue = true;
