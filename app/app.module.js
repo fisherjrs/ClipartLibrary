@@ -9,6 +9,14 @@ var app = angular.module('clipartLibrary', [
   'ui.imageDetail',
   'ngFileUpload']);
 
+// app.config([
+//     "$routeProvider",
+//     "$httpProvider",
+//     function($routeProvider, $httpProvider){
+//         $httpProvider.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
+//     }
+// ]);
+
 
 
 

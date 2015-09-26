@@ -76,7 +76,8 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
   	$http.get('http://localhost:9000/conduitservices/getdesigndefinition.json?designId=' + amount).
         then(function(data) {
             $scope.person.occupation = data.categoryDefinition[0].categoryName;
-            $scope.categoryDefinition = data.categoryDefinition;
+            $scope.designDefinition = response.data;
+            $scope.categoryDefinition = $scope.designDefinition.categoryDefinition;
         }, function(data) {
             $scope.error = "Unable to retrieve design definition."
         });
@@ -90,6 +91,7 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
     $http.get( url + designId).
         then(function(response) {
             //$scope.person.occupation = response.data.categoryDefinition[0].categoryName;
+            $scope.designDefinition = response.data;
             $scope.categoryDefinition = response.data.categoryList;
         }, function(response) {
             $scope.error = "Unable to retrieve category definition."
@@ -314,23 +316,13 @@ $scope.openDesignDefinitionDump = function(scope, size, designDefinition) {
       size: size,
       designDefinition: designDefinition,
       resolve: {
-        items: function () {
-          return $scope.items;
-        },
-        category : function () {
-          return $scope.selectedCategory;
-        },
-        categories : function () {
-          return $scope.categoryDefinition;
+        designDefinition : function () {
+          return designDefinition;
         }
       }
     });
 
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
-      $scope.categoryEditMode = false;
-      $scope.selectedItemId = null;
-    }, function () {
+    modalInstance.result.then(function () {}, function () {
       $log.info('Modal dismissed at: ' + new Date());
       $scope.categoryEditMode = false;
       $scope.selectedItemId = null;
@@ -442,10 +434,22 @@ libraryController.controller('AddImageController', function ($scope, $modalInsta
 });
 
 
-libraryController.controller('designDefinitionDumpController', function ($scope, $modalInstance) {
+libraryController.controller('designDefinitionDumpController', function ($scope, $modalInstance, $http, designDefinition) {
 
-  $scope.ok = function () {
-    $modalInstance.close($scope.selected.item);
+  $scope.designDefinition = designDefinition;
+  var dataObj = {
+        name : "fred",
+        employees : 23,
+        headoffice : "Banff"
+    };
+
+  $scope.publish = function (designDefinition) {
+    $http.post('http://localhost:9000/conduitservices/publishdesigndefinition.json?fred=34', designDefinition).
+        then(function(data) {
+          alert("Lets go!");
+        }, function(data) {
+            $scope.error = "Unable to save."
+        });
   };
 
   $scope.cancel = function () {
