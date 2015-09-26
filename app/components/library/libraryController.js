@@ -305,10 +305,43 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
     });
   }
 
+$scope.openDesignDefinitionDump = function(scope, size, designDefinition) {
+     var modalInstance = $modal.open({
+      animation: $scope.alertAnimationsEnabled,
+      templateUrl: 'designDefinitionDump.html',
+      controller: 'designDefinitionDumpController',
+      scope: scope,
+      size: size,
+      designDefinition: designDefinition,
+      resolve: {
+        items: function () {
+          return $scope.items;
+        },
+        category : function () {
+          return $scope.selectedCategory;
+        },
+        categories : function () {
+          return $scope.categoryDefinition;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+      $scope.categoryEditMode = false;
+      $scope.selectedItemId = null;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+      $scope.categoryEditMode = false;
+      $scope.selectedItemId = null;
+    });
+  }
+
   //Functions to run as page loads ... kinda like init();
   $scope.getCategories($scope.designId); 
 
 });
+
 
 
 
@@ -356,7 +389,7 @@ libraryController.controller('AddImageController', function ($scope, $modalInsta
               
               file.upload = Upload.upload({
                 url: 'http://localhost:9000/conduitservices/intermediateupload.json',
-                fields: {designId: $scope.designId, imageName: file.name, categoryName: $scope.category.categoryName, categoryId: $scope.category.id},
+                fields: {designId: $scope.designId, categoryId: $scope.category.id, imageName: file.name },
                 file: file
               });
 
@@ -404,6 +437,19 @@ libraryController.controller('AddImageController', function ($scope, $modalInsta
         flattenCategoryList(flattenedList, categorySubItem)   
       });
     }
+  };
+
+});
+
+
+libraryController.controller('designDefinitionDumpController', function ($scope, $modalInstance) {
+
+  $scope.ok = function () {
+    $modalInstance.close($scope.selected.item);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
   };
 });
 

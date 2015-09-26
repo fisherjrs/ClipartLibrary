@@ -67,22 +67,21 @@
     <div  class="image-detail-main" ng-show="imageDetailSelected">
       <library-image-detail  id="uiimagedetail2" info="selectedImage"></library-image-detail>
     </div>
-
     	
   </div>
 
   <div class="rightColumn">
 
-  	<p>Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora quaeritis. Summus brains sit​​, morbo vel maleficia? De apocalypsi gorger omero undead survivor dictum mauris. Hi mindless mortuis soulless creaturas, imo evil stalking monstra adventus resi dentevil vultus comedat cerebella viventium.</p>
-
-    <button type="button" class="btn btn-default" ng-click="openModalAlert()">Open me!</button>
     <button type="button" class="btn btn-default" ng-click="openModalAlert('lg')">Large modal</button>
     <button type="button" class="btn btn-default" ng-click="openModalAlert('sm')">Small modal</button>
     <button type="button" class="btn btn-default" ng-click="toggleAnimation()">Toggle Animation ({{ alertAnimationsEnabled }})</button>
     <div ng-show="selected">Selection from a modal: {{ selected }}</div>
 
+    <br><br>
     <button type="button" class="btn btn-default" ng-click="openAddImageDialogue(this, 'lg', selectedCategory)">Image Upload</button>
-    <button type="button" class="btn btn-default" ng-click="addImageToCategory(selectedCategory.id, testImageDefinition)">Add Image</button>
+    <br><br>
+    <button type="button" class="btn btn-default" ng-click="openDesignDefinitionDump(this, 'lg', categoryDefinition)">Dump</button>
+
 
 
   
@@ -176,4 +175,17 @@
           <button ng-click="selectedFiles = null" class="btn btn-primary" ng-show="selectedFiles">Clear</button>
           <button class="btn btn-warning" type="button" ng-click="cancel()">Close</button>
         </div>
+     </script>
+
+     <script type="text/ng-template" id="designDefinitionDump.html">
+         <div class="modal-header">
+             <h3 class="modal-title">Design Definition</h3>
+         </div>
+         <div class="modal-body">              
+              <pre>{{categoryDefinition | json}}</pre>
+         </div>
+         <div class="modal-footer">
+             <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+             <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+         </div>
      </script>
