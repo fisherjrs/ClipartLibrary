@@ -183,7 +183,8 @@
             <button class="btn btn-primary" type="button" ng-click="publish(designDefinition)">Publish</button>
             <button class="btn btn-warning" type="button" ng-click="cancel()">Close</button>
           </div>
-          <div class="modal-body">              
+          <div class="modal-body">  
+            <div >Result = {{response | json}}</div>            
             <pre>{{designDefinition | json}}</pre>
           </div>
           <div class="modal-footer">

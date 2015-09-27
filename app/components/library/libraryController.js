@@ -66,7 +66,11 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
   $scope.$on('image:addImage', function(event, categoryId, imageDefinition) {
     angular.forEach($scope.categoryDefinition, function(category){
       if(category.id == categoryId) {
-        category.imageList.push(imageDefinition);
+        if(category.imageList == undefined) {
+          category.imageList = [imageDefinition];
+        } else {
+          category.imageList.push(imageDefinition);
+        }
       } 
     });
   });
@@ -126,7 +130,12 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
   $scope.addImageToCategory = function(categoryId, imageDefinition) {
     angular.forEach($scope.categoryDefinition, function(category){
       if(category.id == categoryId) {
-        category.imageList.push(imageDefinition);
+        if(category.imageList == undefined) {
+          category.imageList = [imageDefinition];
+        } else {
+          category.imageList.push(imageDefinition);  
+        }
+        
       } 
     });
   }
@@ -437,17 +446,13 @@ libraryController.controller('AddImageController', function ($scope, $modalInsta
 libraryController.controller('designDefinitionDumpController', function ($scope, $modalInstance, $http, designDefinition) {
 
   $scope.designDefinition = designDefinition;
-  var dataObj = {
-        name : "fred",
-        employees : 23,
-        headoffice : "Banff"
-    };
+  $scope.response;
 
   $scope.publish = function (designDefinition) {
     $http.post('http://localhost:9000/conduitservices/publishdesigndefinition.json?fred=34', designDefinition).
-        then(function(data) {
-          alert("Lets go!");
-        }, function(data) {
+        then(function(response) {
+          $scope.response = response.data;
+        }, function(response) {
             $scope.error = "Unable to save."
         });
   };
