@@ -1,19 +1,49 @@
-.tree-node {
-    border: 1px solid #dae2ea;
+
+.angular-ui-tree-handle {
     background: #f8faff;
-    color: #7c9eb2;
+    color: #666666;
+    padding: 2px 2px;
+}
+
+
+
+.tree-node {
+    background: #FFFFFF;
+    color: #666666;
+    margin-bottom: 5px;
 }
 .tree-node-content {
-    margin: 10px;
+    margin: 2px;
+    white-space: nowrap;
 }
+
+.tree-node-content-selected {
+    color: #438eb9;
+    background: #A6CEF6;
+}
+
+.tree-node-content:hover {
+    color: #438eb9;
+    background: #f4f6f7;
+}
+
+.tree-node-content-selected:hover {
+    color: #438eb9;
+    background: #A6CEF6;
+}
+
+
 .tree-handle {
-    padding: 10px;
-    background: #428bca;
-    color: #FFF;
-    margin-right: 10px;
+    padding: 2px;
+    background: #FFF;
+    color: #1C3258;
+    margin-right: 2px;
 }
 
 .angular-ui-tree-handle:hover {
+    color: #438eb9;
+    background: #f4f6f7;
+    border-color: #dce2e8;
 }
 
 .angular-ui-tree-placeholder {
@@ -22,4 +52,9 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+}
+
+.group-title {
+    background-color: #687074 !important;
+    color: #FFF !important;
 }

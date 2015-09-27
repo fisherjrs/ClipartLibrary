@@ -1,10 +1,7 @@
 var libraryController = angular.module('libraryController', []);
 
 libraryController.controller('LibraryController', function($scope, $http, $modal, $log) {
-  $scope.person = {
-      name: "Richard Hawley",
-      occupation: "Star Gazer"
-  };
+ 
   $scope.mode = 'offline';
   $scope.designId = 9;
 
@@ -18,38 +15,6 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
 
   $scope.imageDetailSelected = false;
   $scope.selectedImage = null;
-
-  $scope.testImageDefinition =  {
-                    "id": "677324678",
-                    "name": "PA-3844",
-                    "height": "4000",
-                    "width": "3500",
-                    "statuscode": "A",
-                    "defaultrotation": "0",
-                    "used": "false",
-                    "missingnamesflag": "false",
-                    "displayname": "PA-3844",
-                    "imagedesignid": "9",
-                    "cropmethod": "STRETCHBMP",
-                    "imagetype": "CLIPART",
-                    "syncind": "Y",
-                    "filetype": "TIF",
-                    "sourcecolorspace": "RGB",
-                    "istransparent": "true",
-                    "locator": "TRY1-9-128166993",
-                    "id": "19638043",
-                    "systemname": "PLANT",
-                    "uploaddate": "20150404",
-                    "indexflag": "true",
-                    "exempt": "false",
-                    "whitepoint": "1.0",
-                    "blackpoint": "0.0",
-                    "midpoint": "1.0",
-                    "saturationboost": "0.15",
-                    "size": "3500x4000",
-                    "src" : "http://localhost:9000/conduitservices/getdesignimage?uri=Chrysanthemum.jpg",
-                    "srccdn" : "http://localhost:9000/conduitservices/getdesignimage?uri=Chrysanthemum.jpg&locator=TRY1-9-128166993&quality=thumbnail"
-                }
 
   $scope.showAddImageDialogue = true;
 
@@ -74,18 +39,6 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
       } 
     });
   });
-
-  $scope.add = function(amount) { $scope.person.occupation = amount; };
-  $scope.hello = function(amount) {
-  	$http.get('http://localhost:9000/conduitservices/getdesigndefinition.json?designId=' + amount).
-        then(function(data) {
-            $scope.person.occupation = data.categoryDefinition[0].categoryName;
-            $scope.designDefinition = response.data;
-            $scope.categoryDefinition = $scope.designDefinition.categoryDefinition;
-        }, function(data) {
-            $scope.error = "Unable to retrieve design definition."
-        });
-  };
   
   $scope.getCategories = function(designId) {
     url = 'http://localhost:9000/conduitservices/getdesigndefinition.json?designId=';
@@ -101,15 +54,6 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
             $scope.error = "Unable to retrieve category definition."
         });
   };
-
-  // $scope.getImageList = function(designId, categoryId) {  	
-  //   $http.get('http://localhost:9000/conduitservices/getimagelist?designId=' + designId + '&categoryId=' + categoryId ).
-  // 		then(function(response) {
-  // 			$scope.images = response.data;
-  // 		}, function(response){
-  //       $scope.error = "Unable to retriev image definition."
-  //     });
-  // };
 
   $scope.displayImages = function(categoryId) {
       $scope.imageDefinition = null;
@@ -140,40 +84,6 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
     });
   }
 
-  $scope.list = [{
-      "id": 1,
-      "title": "1. dragon-breath",
-      "items": []
-    }, {
-      "id": 2,
-      "title": "2. moiré-vision",
-      "items": [{
-        "id": 21,
-        "title": "2.1. tofu-animation",
-        "items": [{
-          "id": 211,
-          "title": "2.1.1. spooky-giraffe",
-          "items": []
-        }, {
-          "id": 212,
-          "title": "2.1.2. bubble-burst",
-          "items": []
-        }]
-      }, {
-        "id": 22,
-        "title": "2.2. barehand-atomsplitting",
-        "items": []
-      }],
-    }, {
-      "id": 3,
-      "title": "3. unicorn-zapper",
-      "items": []
-    }, {
-      "id": 4,
-      "title": "4. romantic-transclusion",
-      "items": []
-    }];
-
     $scope.selectedItem = {
 
     };
@@ -201,6 +111,19 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
         rootNodeScope.collapseAll();
       }
       $scope.treeCollapsed = !$scope.treeCollapsed;
+    };
+
+    $scope.isSelectedCategory = function(categoryId) {
+      
+      if($scope.selectedCategory == undefined) {
+        return false;
+      }
+
+      if( categoryId === $scope.selectedCategory.id) {
+        return true;
+      }
+      
+      return false;
     };
 
     $scope.newSubItem = function(scope) {
@@ -342,9 +265,6 @@ $scope.openDesignDefinitionDump = function(scope, size, designDefinition) {
   $scope.getCategories($scope.designId); 
 
 });
-
-
-
 
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.

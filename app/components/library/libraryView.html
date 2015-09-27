@@ -1,41 +1,17 @@
 <div class="columnsContainer">
 
   <div class="sideNav">
-    <h4>Categories</h4>
-
+    
     <div>       
-
-      <button ng-click="getCategories(designId)" type="button" class="btn btn-sm btn-primary">Refresh</button>
-      <button ng-click="toggleAll()" type="button" class="btn btn-sm btn-primary">Toggle</button>
-      <script type="text/ng-template" id="nodes_renderer3.html">
-        <div class="tree-node">
-          <div class="pull-left tree-handle" ui-tree-handle>
-            <span class="glyphicon glyphicon-list"></span>
-          </div>
-          <div class="tree-node-content">
-            <a class="btn btn-success btn-xs" data-nodrag ng-click="toggle(this)">
-              <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
-            </a>
-            <a ng-click="selectItem(this)" ng-show="(!categoryEditMode || selectedItemId != item.id)">
-              {{item.categoryName}}
-            </a>
-            <span ng-show="categoryEditMode && selectedItemId==item.id">
-              <input ng-model="item.categoryName" type="text">
-              <button ng-click="updateItem(this)" type="button" class="btn btn-sm btn-primary">update</button>
-              <button ng-click="openModalAlert(this, 'sm')" type="button" class="btn btn-sm btn-primary">remove</button>
-            </span>
-            <a class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="editItem(this)"><span class="glyphicon glyphicon-remove"></span></a>
-            <a class="pull-right btn btn-primary btn-xs" data-nodrag ng-click="newSubItem(this)" style="margin-right: 8px;"><span class="glyphicon glyphicon-plus"></span></a>
-          </div>
-        </div>
-        <ol ui-tree-nodes="" ng-model="item.categoryList" ng-class="{hidden: collapsed}">
-          <li ng-repeat="item in item.categoryList" ui-tree-node ng-include="'nodes_renderer3.html'">
-          </li>
-        </ol>
-      </script> 
-
-
-      <div ui-tree id="tree2-root" data-max-depth="2">
+      <div style="margin-bottom: 8px;">
+        <a class="btn btn-default btn-xs" ng-click="toggleAll(this)">
+          <small><span class="glyphicon" ng-class="{'glyphicon-plus' : treeCollapsed, 'glyphicon-minus': !treeCollapsed}"></span></small>
+        </a>
+        <a class="btn btn-default btn-xs" ng-click="openModalAlert('lg')">
+          <small><span class="glyphicon glyphicon-edit"></span></small>
+        </a>
+      </div>
+      <div ui-tree id="tree2-root" width="300px" >
         <ol ui-tree-nodes="" ng-model="categoryDefinition" >
           <li ng-repeat="item in categoryDefinition" ui-tree-node ng-include="'nodes_renderer3.html'"></li>
         </ol>
@@ -90,105 +66,136 @@
 
 </div>
 
-     <script type="text/ng-template" id="myModalContent.html">
-         <div class="modal-header">
-             <h3 class="modal-title">You sure?</h3>
-         </div>
-         <div class="modal-body">
-              Are you sure you want to remove the category.
-              It means that all the images for the category will also be removed.
-             <ul>
-                 <li ng-repeat="item in items">
-                     <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
-                 </li>
-             </ul>
-             Selected: <b>{{ selected.item }}</b>
-         </div>
-         <div class="modal-footer">
-             <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-             <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-         </div>
-     </script>
+<script type="text/ng-template" id="nodes_renderer3.html">
+  <div class="tree-node">
+  
+    <div class="pull-left tree-handle" ui-tree-handle>
+      <small><span class="glyphicon glyphicon-default glyphicon-move"></span></small>
+    </div>
+   
+    <div class="tree-node-content" ng-class="{'tree-node-content-selected': isSelectedCategory(item.id)}">
+      <a  data-nodrag ng-click="toggle(this)">
+        <small><span class="glyphicon" ng-class="{'glyphicon-folder-close': collapsed, 'glyphicon-folder-open': !collapsed}" style="color: #FFBD38;"></span></small>
+      </a>
+      <a ng-click="selectItem(this)"  style="color: #1C3258; text-decoration: none; font-size: 11px; cursor:pointer;">{{item.categoryName}}</a>
+      <!--
+      <span ng-show="categoryEditMode && selectedItemId==item.id">
+        <input ng-model="item.categoryName" type="text">
+        <button ng-click="updateItem(this)" type="button" class="btn btn-sm btn-primary">update</button>
+        <button ng-click="openModalAlert(this, 'sm')" type="button" class="btn btn-sm btn-primary">remove</button>
+      </span>
 
-     <script type="text/ng-template" id="imageAddDialogue.html">
-       <div class="modal-header">
-           <h3 class="modal-title">Add Images</h3>
-       </div>
-       <div class="modal-body">
-         Select images from your computer or network resource. <br>
-         They will be uploaded to a temporary central image repository.<br> 
-         They are not added to the permanent clipart library until you publish your changes.
+      <a class="pull-right btn btn-default btn-xs" data-nodrag ng-click="editItem(this)"><span class="glyphicon glyphicon-remove"></span></a>
 
-          <form name="imagesForm" novalidate class="simple-form">
-            <div class="form-group">
-              <select class="form-control" name="category" style="width: 300px;">
-                <option value=""  disabled >Select category</option>
-                <option 
-                  ng-repeat="categoryListItem in modalCategories" 
-                  value="{{category.id}}" 
-                  ng-selected="category.categoryName == categoryListItem.categoryName">
-                    {{categoryListItem.categoryName}}
-                </option>
-              </select>
-            </div>
+      <a class="pull-right btn btn-default btn-xs" data-nodrag ng-click="newSubItem(this)" style="margin-right: 8px;"><span class="glyphicon glyphicon-pencil"></span></a>
+      --->
+    </div>
+  </div>
+  <ol ui-tree-nodes="" ng-model="item.categoryList" ng-class="{hidden: collapsed}">
+    <li ng-repeat="item in item.categoryList" ui-tree-node ng-include="'nodes_renderer3.html'">
+    </li>
+  </ol>
+</script> 
 
-            <div class="btn btn-default" ngf-select ng-model="selectedFiles" ngf-multiple="true" ng-show="selectedFiles.length==0">Select</div>
-           
-            <table class="table table-striped" ng-show="selectedFiles">
-              <tr>
-                <td>
-                  image
-                </td>
-                <td>
-                  display name
-                </td>
-                <td>
-                  tags
-                </td>
-                <td>
-                  
-                </td>
-              </tr>
-              <tr ng-repeat="file in selectedFiles">
-                <td>
-                  <img ngf-src="file" class="thumb"  style="width: 60px; height=60px;">
-                </td>
-                <td class="form-group">
-                  <input type="text" name="imageName_{{$index}}" class="form-control" ng-model="file.displayName" ng-show="!file.result"/>
-                  <span ng-show="file.result">{{file.result.result}}</span> 
-                </td>
-                <td class="form-group">
-                  <input type="text" name="tags_{{$index}}"  class="form-control" ng-model="file.tags" ng-show="!file.result" /> 
-                </td>
-                <td class="form-group">
-                   <a class="pull-right btn btn-danger btn-xs" ng-click="removeFileItem(selectedFiles, $index)" ng-show="!file.result"><span class="glyphicon glyphicon-remove"></span></a>
-                   <a class="pull-right btn btn-danger btn-xs" ng-click="gatherItems(selectedFiles, $index, 'imagesForm')" ng-show="!file.result"><span class="glyphicon glyphicon-remove"></span></a>
-                </td>
-              </tr>
-            </table>             
-          </form>
-             <pre>files = {{selectedFiles | json}}</pre>
-        </div>
+<script type="text/ng-template" id="myModalContent.html">
+   <div class="modal-header">
+       <h3 class="modal-title">You sure?</h3>
+   </div>
+   <div class="modal-body">
+        Are you sure you want to remove the category.
+        It means that all the images for the category will also be removed.
+       <ul>
+           <li ng-repeat="item in items">
+               <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
+           </li>
+       </ul>
+       Selected: <b>{{ selected.item }}</b>
+   </div>
+   <div class="modal-footer">
+       <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+       <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+   </div>
+</script>
 
-        <div class="modal-footer">
-          <button ng-click="uploadFiles(selectedFiles)" class="btn btn-primary" ng-show="selectedFiles">Upload</button>
-          <button ng-click="selectedFiles = null" class="btn btn-primary" ng-show="selectedFiles">Clear</button>
-          <button class="btn btn-warning" type="button" ng-click="cancel()">Close</button>
-        </div>
-     </script>
+<script type="text/ng-template" id="imageAddDialogue.html">
+ <div class="modal-header">
+     <h3 class="modal-title">Add Images</h3>
+ </div>
+ <div class="modal-body">
+   Select images from your computer or network resource. <br>
+   They will be uploaded to a temporary central image repository.<br> 
+   They are not added to the permanent clipart library until you publish your changes.
 
-     <script type="text/ng-template" id="designDefinitionDump.html">
-          <div class="modal-header">
-            <h3 class="modal-title">Design Definition</h3>
-            <button class="btn btn-primary" type="button" ng-click="publish(designDefinition)">Publish</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Close</button>
-          </div>
-          <div class="modal-body">  
-            <div >Result = {{response | json}}</div>            
-            <pre>{{designDefinition | json}}</pre>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-          </div>
-     </script>
+    <form name="imagesForm" novalidate class="simple-form">
+      <div class="form-group">
+        <select class="form-control" name="category" style="width: 300px;">
+          <option value=""  disabled >Select category</option>
+          <option 
+            ng-repeat="categoryListItem in modalCategories" 
+            value="{{category.id}}" 
+            ng-selected="category.categoryName == categoryListItem.categoryName">
+              {{categoryListItem.categoryName}}
+          </option>
+        </select>
+      </div>
+
+      <div class="btn btn-default" ngf-select ng-model="selectedFiles" ngf-multiple="true" ng-show="selectedFiles.length==0">Select</div>
+     
+      <table class="table table-striped" ng-show="selectedFiles">
+        <tr>
+          <td>
+            image
+          </td>
+          <td>
+            display name
+          </td>
+          <td>
+            tags
+          </td>
+          <td>
+            
+          </td>
+        </tr>
+        <tr ng-repeat="file in selectedFiles">
+          <td>
+            <img ngf-src="file" class="thumb"  style="width: 60px; height=60px;">
+          </td>
+          <td class="form-group">
+            <input type="text" name="imageName_{{$index}}" class="form-control" ng-model="file.displayName" ng-show="!file.result"/>
+            <span ng-show="file.result">{{file.result.result}}</span> 
+          </td>
+          <td class="form-group">
+            <input type="text" name="tags_{{$index}}"  class="form-control" ng-model="file.tags" ng-show="!file.result" /> 
+          </td>
+          <td class="form-group">
+             <a class="pull-right btn btn-danger btn-xs" ng-click="removeFileItem(selectedFiles, $index)" ng-show="!file.result"><span class="glyphicon glyphicon-remove"></span></a>
+             <a class="pull-right btn btn-danger btn-xs" ng-click="gatherItems(selectedFiles, $index, 'imagesForm')" ng-show="!file.result"><span class="glyphicon glyphicon-remove"></span></a>
+          </td>
+        </tr>
+      </table>             
+    </form>
+       <pre>files = {{selectedFiles | json}}</pre>
+  </div>
+
+  <div class="modal-footer">
+    <button ng-click="uploadFiles(selectedFiles)" class="btn btn-primary" ng-show="selectedFiles">Upload</button>
+    <button ng-click="selectedFiles = null" class="btn btn-primary" ng-show="selectedFiles">Clear</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Close</button>
+  </div>
+</script>
+
+<script type="text/ng-template" id="designDefinitionDump.html">
+    <div class="modal-header">
+      <h3 class="modal-title">Design Definition</h3>
+      <button class="btn btn-primary" type="button" ng-click="publish(designDefinition)">Publish</button>
+      <button class="btn btn-warning" type="button" ng-click="cancel()">Close</button>
+    </div>
+    <div class="modal-body">  
+      <div >Result = {{response | json}}</div>            
+      <pre>{{designDefinition | json}}</pre>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+      <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
