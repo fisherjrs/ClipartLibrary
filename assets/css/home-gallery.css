@@ -36,6 +36,27 @@
        -o-transition: all 0.3s ease-out;
        transition: all 0.3s ease-out;
     }
+
+    .boxSingle {
+       width: 120px;
+       height: 120px;
+    }
+
+    .boxSingle img {
+       width: 120px;
+       height: 120px;
+    }
+
+     .boxCopy {
+       width: 100px;
+       height: 100px;
+    }
+
+    .boxCopy img {
+       width: 100px;
+       height: 100px;
+    }
+
     body.no-touch .boxInner:hover .titleBox, body.touch .boxInner.touchFocus .titleBox {
        margin-bottom: 0;
     }

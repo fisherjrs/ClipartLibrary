@@ -17,19 +17,30 @@
     white-space: nowrap;
 }
 
-.tree-node-content-selected {
-    color: #438eb9;
-    background: #A6CEF6;
-}
-
 .tree-node-content:hover {
     color: #438eb9;
     background: #f4f6f7;
 }
 
+.tree-node-content-selected {
+    color: #438eb9;
+    background: #A6CEF6;
+}
+
 .tree-node-content-selected:hover {
     color: #438eb9;
     background: #A6CEF6;
+}
+
+.tree-node-content-droppable {
+    color: #438eb9;
+    background-color: rgba(106,191,146, 0.25);
+}
+
+.tree-node-content-droppable:hover {
+    color: #438eb9;
+    background: #6ABF92;
+    background-color: rgba(89,146,148, 0.25);
 }
 
 

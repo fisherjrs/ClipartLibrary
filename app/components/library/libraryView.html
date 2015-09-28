@@ -27,7 +27,12 @@
       <div class="wrap">
         <div ng-repeat="image in imageDefinition" class="box">
           <div >
-            <library-image  id="uiimage2" info="image" class="boxInner"></library-image>
+            <library-image  id="uiimage2" 
+              info="image" 
+              class="boxInner" 
+              ng-mousedown="libraryImageMouseDown(image)"
+              ng-mouseup="libraryImageMouseUp(image)">
+            </library-image>
           </div>
         </div>
       </div>
@@ -41,7 +46,7 @@
 
    
     <div  class="image-detail-main" ng-show="imageDetailSelected">
-      <library-image-detail  id="uiimagedetail2" info="selectedImage"></library-image-detail>
+      <library-image-detail  id="uiimagedetail2" info="selectedImage" ></library-image-detail>
     </div>
     	
   </div>
@@ -57,14 +62,31 @@
     <button type="button" class="btn btn-default" ng-click="openAddImageDialogue(this, 'lg', selectedCategory)">Image Upload</button>
     <br><br>
     <button type="button" class="btn btn-default" ng-click="openDesignDefinitionDump(this, 'lg', designDefinition)">Dump</button>
+<div>{{clickPosition}}</div>
+    <div ng-show="imageDragOn">drag it</div>
 
-
+    <div>
+      <library-image  id="uiimage2" 
+        info="testImageDefinition" 
+        class="boxSingle" 
+        ng-mousedown="libraryImageMouseDown(image, $event)"
+        ng-mouseup="libraryImageMouseUp(image)">
+      </library-image>
+      <library-image-copy  id="uiimage2" 
+        info="testImageDefinition"
+        position="clickPosition"
+        class="boxCopy" 
+        ng-show="imageDragOn">
+      </library-image>
+    </div>
 
   
    
   </div>
 
 </div>
+
+
 
 <script type="text/ng-template" id="nodes_renderer3.html">
   <div class="tree-node">
@@ -73,7 +95,7 @@
       <small><span class="glyphicon glyphicon-default glyphicon-move"></span></small>
     </div>
    
-    <div class="tree-node-content" ng-class="{'tree-node-content-selected': isSelectedCategory(item.id)}">
+    <div class="tree-node-content" ng-class="{'tree-node-content-droppable': imageDragOn, 'tree-node-content-selected': isSelectedCategory(item.id)}">
       <a  data-nodrag ng-click="toggle(this)">
         <small><span class="glyphicon" ng-class="{'glyphicon-folder-close': collapsed, 'glyphicon-folder-open': !collapsed}" style="color: #FFBD38;"></span></small>
       </a>

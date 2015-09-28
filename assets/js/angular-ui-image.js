@@ -17,6 +17,10 @@ var angularImage = angular.module('ui.image', [])
           //scope.$parent.imageHandler(scope.info);
           scope.$emit('image:detailOpen', scope.info);
         };
+
+        $scope.clickHandler = function(scope) {
+          alert("Go!");
+        }
       });
     
 
@@ -32,33 +36,45 @@ var angularImage = angular.module('ui.image', [])
           //   var startX = 0, startY = 0, x = 0, y = 0;
 
           //   element.css({
-          //    position: 'relative',
-          //    // border: '1px solid red',
-          //    // backgroundColor: 'lightgrey',
+          //    //position: 'relative',
           //    cursor: 'pointer'
           //   });
 
-          //   element.on('mousedown', function(event) {
+          //   element.on('mouseover', function(event) {
           //     // Prevent default dragging of selected content
-          //     event.preventDefault();
-          //     startX = event.pageX - x;
-          //     startY = event.pageY - y;
-          //     $document.on('mousemove', mousemove);
-          //     $document.on('mouseup', mouseup);
+          //     //event.preventDefault();
+          //   });
+
+          //   element.on('mousedown', function(event) {
+          //     element.css({
+          //      opacity: 0.4
+          //     });
+
+          //     // Prevent default dragging of selected content
+          //     // event.preventDefault();
+          //     // startX = event.pageX - x;
+          //     // startY = event.pageY - y;
+              
+          //     // $document.on('mousemove', mousemove);
+          //      //$document.on('mouseup', mouseup);
           //   });
 
           //   function mousemove(event) {
-          //     y = event.pageY - startY;
-          //     x = event.pageX - startX;
-          //     element.css({
-          //       top: y + 'px',
-          //       left:  x + 'px'
-          //     });
+          //     // y = event.pageY - startY;
+          //     // x = event.pageX - startX;
+          //     // element.css({
+          //     //   top: y + 'px',
+          //     //   left:  x + 'px',
+          //     //   'z-index': 999
+          //     // });
           //   }
 
           //   function mouseup() {
-          //     $document.off('mousemove', mousemove);
-          //     $document.off('mouseup', mouseup);
+          //     element.css({
+          //      opacity: 1
+          //     });
+          //     //$document.off('mousemove', mousemove);
+          //     //$document.off('mouseup', mouseup);
           //   }
           // }
         };

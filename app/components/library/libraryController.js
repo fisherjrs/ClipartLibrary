@@ -1,6 +1,6 @@
 var libraryController = angular.module('libraryController', []);
 
-libraryController.controller('LibraryController', function($scope, $http, $modal, $log) {
+libraryController.controller('LibraryController', function($scope, $http, $modal, $log, $timeout, $document) {
  
   $scope.mode = 'offline';
   $scope.designId = 9;
@@ -18,6 +18,69 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
 
   $scope.showAddImageDialogue = true;
 
+  $scope.imageDragOn = false;
+  $scope.imageDragInProcess = false;
+  $scope.imageDragPromise;
+
+  $scope.clickPosition = {'x': 0, 'y':0};
+  $scope.selectedItem = {};
+
+  $scope.options = {};
+
+  $scope.testImageDefinition =  {
+                    "id": "677324678",
+                    "name": "PA-3844",
+                    "height": "4000",
+                    "width": "3500",
+                    "statuscode": "A",
+                    "defaultrotation": "0",
+                    "used": "false",
+                    "missingnamesflag": "false",
+                    "displayname": "PA-3844",
+                    "imagedesignid": "9",
+                    "cropmethod": "STRETCHBMP",
+                    "imagetype": "CLIPART",
+                    "syncind": "Y",
+                    "filetype": "TIF",
+                    "sourcecolorspace": "RGB",
+                    "istransparent": "true",
+                    "locator": "TRY1-9-128166993",
+                    "id": "19638043",
+                    "systemname": "PLANT",
+                    "uploaddate": "20150404",
+                    "indexflag": "true",
+                    "exempt": "false",
+                    "whitepoint": "1.0",
+                    "blackpoint": "0.0",
+                    "midpoint": "1.0",
+                    "saturationboost": "0.15",
+                    "size": "3500x4000",
+                    "src" : "http://localhost:9000/conduitservices/getdesignimage?path=library\\9\\34901\\Lighthouse.jpg",
+                    "srccdn" : "http://localhost:9000/conduitservices/getdesignimage?uri=Chrysanthemum.jpg&locator=TRY1-9-128166993&quality=thumbnail",
+                    "model" : "copy"
+                }
+
+
+  $scope.libraryImageMouseDown = function(scope, $event) {
+    $scope.imageDragPromise = $timeout(function() {
+      $scope.imageDragOn = true;
+      $scope.clickPosition.x = $event.pageX;
+      $scope.clickPosition.y = $event.pageY;
+    }, 1000);
+  }
+
+  // $scope.$watch('clickPosition.x', function() {
+  //         console.log('hey, position has changed!');
+  //       });
+  // $scope.$watch('imageDragOn', function() {
+  //         console.log('drag on!');
+  //       });
+
+  $scope.libraryImageMouseUp = function(scope) {
+    //$scope.imageDragOn = false;
+    $timeout.cancel($scope.imageDragPromise);     
+  }
+
   $scope.$on('image:detailOpen', function(event, scope) {
     $scope.imageDetailSelected = true;
     $scope.selectedImage = scope;
@@ -26,6 +89,19 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
   $scope.$on('image:detailClose', function(event, scope) {
     $scope.imageDetailSelected = false;
     $scope.selectedImage = null;
+  });
+
+  $scope.$on('image:draggingStarted', function(event, scope) {
+    $scope.imageDragInProcess = true;
+    $scope.selectedImage = scope;
+    $scope.$apply();
+  });
+
+  $scope.$on('image:draggingStopped', function(event, scope) {
+    $scope.imageDragInProcess = false;
+    $scope.selectedImage = null;
+    $scope.imageDragOn = false;
+    $scope.$apply();
   });
 
   $scope.$on('image:addImage', function(event, categoryId, imageDefinition) {
@@ -82,101 +158,93 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
         
       } 
     });
-  }
+  };   
 
-    $scope.selectedItem = {
+  $scope.remove = function(scope) {
+    scope.remove();
+  };
 
-    };
+  $scope.uiTreeToggle = function(scope) {
+    scope.toggle();
+  };
 
-    $scope.options = {
-    };
+  var getRootNodesScope = function() {
+    return angular.element(document.getElementById("tree2-root")).scope();
+  };
 
-    $scope.remove = function(scope) {
-      scope.remove();
-    };
+  $scope.toggleAll = function(scope) {
+    var rootNodeScope = getRootNodesScope();
+    if($scope.treeCollapsed) {
+      rootNodeScope.expandAll();
+    } else {
+      rootNodeScope.collapseAll();
+    }
+    $scope.treeCollapsed = !$scope.treeCollapsed;
+  };
 
-    $scope.uiTreeToggle = function(scope) {
-      scope.toggle();
-    };
-
-    var getRootNodesScope = function() {
-      return angular.element(document.getElementById("tree2-root")).scope();
-    };
-
-    $scope.toggleAll = function(scope) {
-      var rootNodeScope = getRootNodesScope();
-      if($scope.treeCollapsed) {
-        rootNodeScope.expandAll();
-      } else {
-        rootNodeScope.collapseAll();
-      }
-      $scope.treeCollapsed = !$scope.treeCollapsed;
-    };
-
-    $scope.isSelectedCategory = function(categoryId) {
-      
-      if($scope.selectedCategory == undefined) {
-        return false;
-      }
-
-      if( categoryId === $scope.selectedCategory.id) {
-        return true;
-      }
-      
+  $scope.isSelectedCategory = function(categoryId) {
+    
+    if($scope.selectedCategory == undefined) {
       return false;
-    };
+    }
 
-    $scope.newSubItem = function(scope) {
-      var nodeData = scope.$modelValue;
-      nodeData.categoryList.push({
-        id: nodeData.id * 10 + nodeData.categoryList.length,
-        categoryName: 'Rename Me',
-        categoryList: []
-      });
-    };
+    if( categoryId === $scope.selectedCategory.id) {
+      return true;
+    }
+    
+    return false;
+  };
 
-    $scope.newSubItem_original = function(scope) {
-      var nodeData = scope.$modelValue;
-      nodeData.items.push({
-        id: nodeData.id * 10 + nodeData.items.length,
-        categoryName: 'Rename Me',
-        items: []
-      });
-    };
+  $scope.newSubItem = function(scope) {
+    var nodeData = scope.$modelValue;
+    nodeData.categoryList.push({
+      id: nodeData.id * 10 + nodeData.categoryList.length,
+      categoryName: 'Rename Me',
+      categoryList: []
+    });
+  };
 
-     $scope.selectItem = function(scope) {
-      var nodeData = scope.$modelValue;
-      $scope.selectedCategory = nodeData;
-      //only apply image source for subset of image array to avoid loading all images at once.
-      images = nodeData.imageList;
-      if(images != null) {
-        for(j=0; j<images.length; j++){
-          images[j].src2 = images[j].src;
-         }
-      }
-       $scope.imageDefinition = images;     
-    };
+  $scope.newSubItem_original = function(scope) {
+    var nodeData = scope.$modelValue;
+    nodeData.items.push({
+      id: nodeData.id * 10 + nodeData.items.length,
+      categoryName: 'Rename Me',
+      items: []
+    });
+  };
 
-    $scope.editItem = function(scope) {
-      var nodeData = scope.$modelValue;
-      $scope.categoryEditMode = true;
-      $scope.selectedItemId = nodeData.id;
-    };
+  $scope.selectItem = function(scope) {
+    var nodeData = scope.$modelValue;
+    $scope.selectedCategory = nodeData;
+    //only apply image source for subset of image array to avoid loading all images at once.
+    images = nodeData.imageList;
+    if(images != null) {
+      for(j=0; j<images.length; j++){
+        images[j].src2 = images[j].src;
+       }
+    }
+     $scope.imageDefinition = images;     
+  };
 
-    $scope.updateItem = function(scope) {
-      var nodeData = scope.$modelValue;
-      $scope.categoryEditMode = false;
-      $scope.selectedItemId = null;
-    };
+  $scope.editItem = function(scope) {
+    var nodeData = scope.$modelValue;
+    $scope.categoryEditMode = true;
+    $scope.selectedItemId = nodeData.id;
+  };
 
-    $scope.deleteItem = function(scope) {
-      var nodeData = scope.$modelValue;
-      $scope.categoryEditMode = false;
-      $scope.selectedItemId = null;
-      scope.remove();
-    };
+  $scope.updateItem = function(scope) {
+    var nodeData = scope.$modelValue;
+    $scope.categoryEditMode = false;
+    $scope.selectedItemId = null;
+  };
+
+  $scope.deleteItem = function(scope) {
+    var nodeData = scope.$modelValue;
+    $scope.categoryEditMode = false;
+    $scope.selectedItemId = null;
+    scope.remove();
+  };
   
-
   $scope.openModalAlert = function (scope, size) {
 
     var modalInstance = $modal.open({
@@ -237,9 +305,9 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
       $scope.categoryEditMode = false;
       $scope.selectedItemId = null;
     });
-  }
+  };
 
-$scope.openDesignDefinitionDump = function(scope, size, designDefinition) {
+  $scope.openDesignDefinitionDump = function(scope, size, designDefinition) {
      var modalInstance = $modal.open({
       animation: $scope.alertAnimationsEnabled,
       templateUrl: 'designDefinitionDump.html',
@@ -259,7 +327,7 @@ $scope.openDesignDefinitionDump = function(scope, size, designDefinition) {
       $scope.categoryEditMode = false;
       $scope.selectedItemId = null;
     });
-  }
+  };
 
   //Functions to run as page loads ... kinda like init();
   $scope.getCategories($scope.designId); 
