@@ -21,24 +21,25 @@
 
   </div>
 
-  <div class="leftColumn">
+  <div class="leftColumn" >
 
-    <div ng-show="imageDefinition">
+    <div ng-show="imageDefinition && viewTypeLiquidBox">
       <div class="wrap">
         <div ng-repeat="image in imageDefinition" class="box">
           <div >
             <library-image  id="uiimage2" 
               info="image" 
               class="boxInner" 
-              ng-mousedown="libraryImageMouseDown(image)"
-              ng-mouseup="libraryImageMouseUp(image)">
+              <!-- ng-mouseover="libraryImageMouseOver(image, $event)"
+              ng-mouseout="libraryImageMouseOut(image, $event)"
+              ng-mousedown="libraryImageMouseDown(image, $event)"
+              ng-mouseup="libraryImageMouseUp(image, $event)" -->
+              >
             </library-image>
           </div>
         </div>
       </div>
-    </div>   
-
- 
+    </div>  
     
     <div ng-show="categoryId && !imageDefinition"> 
       <p>It appears that no images are part of this category: {{categoryId}}. If you loaded your design definition from a local json file then you can search the file for this categoryId to investigate the problem. Otherwise, you'll need to consult the database.
@@ -69,15 +70,11 @@
       <library-image  id="uiimage2" 
         info="testImageDefinition" 
         class="boxSingle" 
-        ng-mousedown="libraryImageMouseDown(image, $event)"
-        ng-mouseup="libraryImageMouseUp(image)">
-      </library-image>
-      <library-image-copy  id="uiimage2" 
-        info="testImageDefinition"
         position="clickPosition"
-        class="boxCopy" 
-        ng-show="imageDragOn">
+        ng-mousedown="libraryImageMouseDown(image, $event)"
+        ng-mouseup="libraryImageMouseUp(image, $event)">
       </library-image>
+   
     </div>
 
   
@@ -85,6 +82,14 @@
   </div>
 
 </div>
+<!--
+   <library-image-copy  id="uiimage2" 
+        info="testImageDefinition"
+        position="clickPosition"
+        class="boxCopy" 
+        >
+      </library-image>
+-->
 
 
 

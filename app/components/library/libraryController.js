@@ -13,6 +13,8 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
   $scope.selectedCategory = null;
   $scope.treeCollapsed = false;
 
+  $scope.viewTypeLiquidBox = true;
+
   $scope.imageDetailSelected = false;
   $scope.selectedImage = null;
 
@@ -21,6 +23,8 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
   $scope.imageDragOn = false;
   $scope.imageDragInProcess = false;
   $scope.imageDragPromise;
+
+  $scope.imageLibraryHover = false;
 
   $scope.clickPosition = {'x': 0, 'y':0};
   $scope.selectedItem = {};
@@ -60,6 +64,16 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
                     "model" : "copy"
                 }
 
+ $scope.libraryImageMouseOver = function(scope, $event) {
+    $scope.imageOverPromise = $timeout(function() {
+      $scope.imageLibraryHover = true;
+    }, 250);
+  }
+
+  $scope.libraryImageMouseOut = function(scope) {
+    $timeout.cancel($scope.imageOverPromise);
+    $scope.imageLibraryHover = false;
+  }
 
   $scope.libraryImageMouseDown = function(scope, $event) {
     $scope.imageDragPromise = $timeout(function() {
@@ -69,6 +83,11 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
     }, 1000);
   }
 
+  $scope.libraryImageMouseUp = function(scope) {
+    //$scope.imageDragOn = false;
+    $timeout.cancel($scope.imageDragPromise);     
+  }
+
   // $scope.$watch('clickPosition.x', function() {
   //         console.log('hey, position has changed!');
   //       });
@@ -76,10 +95,7 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
   //         console.log('drag on!');
   //       });
 
-  $scope.libraryImageMouseUp = function(scope) {
-    //$scope.imageDragOn = false;
-    $timeout.cancel($scope.imageDragPromise);     
-  }
+
 
   $scope.$on('image:detailOpen', function(event, scope) {
     $scope.imageDetailSelected = true;

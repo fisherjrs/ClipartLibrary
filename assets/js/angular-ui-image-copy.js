@@ -13,6 +13,7 @@ var angularImage = angular.module('ui.image.copy', [])
         };
 
         $scope.broadcastStartDrag = true;
+        $scope.enableDraggable = false;
 
         // $scope.detailHandler = function(scope) {
         //   //alert("Go! ImageController.");
@@ -34,20 +35,22 @@ var angularImage = angular.module('ui.image.copy', [])
           scope.$emit('image:draggingStopped', scope.info);
         }
 
-        $scope.$parent.$watch('imageDragOn', function() {
-           console.log('hey, add show image copy.');
-        });
+        // $scope.$parent.$watch('imageDragOn', function() {
+        //    console.log('hey, add show image copy.');
+        // });
 
-        $scope.$watch('position.x', function() {
-           console.log('hey, watch position.x.' + $scope.position.x);
-           $element.css({
-                position: 'absolute',
-                cursor: 'pointer',
-                top: $scope.position.y + 'px',
-                left: $scope.position.x - 150 +'px',
-               'z-index': 999
-              });
-        });
+        // $scope.$watch('position.x', function() {
+        //    console.log('hey, watch position.x.' + $scope.position.x);
+        //    $element.css({
+        //         top: $scope.position.y + 'px',
+        //         left: $scope.position.x +'px'
+        //       });
+        //    //Don't start triggering this until after initial load.
+        //    if($scope.enableDraggable) {
+        //       $element.trigger("mousedown"); 
+        //    }
+        //    $scope.enableDraggable = true;
+        // });
       });
     
 
@@ -65,11 +68,8 @@ var angularImage = angular.module('ui.image.copy', [])
             var startX = 0, startY = 0, x = 0, y = 0;
             
             element.css({
-              position: 'absolute',
-              cursor: 'pointer',
               top: scope.$parent.clickPosition.y + 'px',
-              left: scope.$parent.clickPosition.x - 150 + 'px',
-             'z-index': 999
+              left: scope.$parent.clickPosition.x + 'px'
             });
 
             element.on('mouseover', function(event) {
@@ -89,8 +89,8 @@ var angularImage = angular.module('ui.image.copy', [])
 
               //Prevent default dragging of selected content
               event.preventDefault();
-              startX = event.pageX - x;
-              startY = event.pageY - y;
+              startX = event.pageX ;
+              startY = event.pageY ;
               
               console.log(startX + " " + startY)
               $document.on('mousemove', mousemove);
@@ -100,8 +100,8 @@ var angularImage = angular.module('ui.image.copy', [])
             function mousemove(event) {
               console.log("mouse move event pagex, y :::" + event.pageX + ", " + event.pageY);
 
-              y = event.pageY - startY;
-              x = event.pageX - startX;
+              y = event.pageY ;
+              x = event.pageX ;
               element.css({
                 top: y + 'px',
                 left:  x + 'px',
