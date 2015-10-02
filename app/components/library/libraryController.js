@@ -98,8 +98,9 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
 
 
   $scope.$on('image:detailOpen', function(event, scope) {
-    $scope.imageDetailSelected = true;
+    //$scope.imageDetailSelected = true;
     $scope.selectedImage = scope;
+    $scope.openImageDetailModal($scope, 'lg', $scope.selectedImage, $scope.selectedCategory, $scope.categoryDefinition);    
   });
 
   $scope.$on('image:detailClose', function(event, scope) {
@@ -345,10 +346,39 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
     });
   };
 
+  $scope.openImageDetailModal = function(scope, size, imageDefinition, selectedCategory, categoryList) {
+    var modalInstance = $modal.open({
+      animation: $scope.alertAnimationsEnabled,
+      templateUrl:'imageDetail.html',
+      controller: 'imageDetailController',
+      scope: scope,
+      size: size,
+      imageDefinition: imageDefinition,
+      selectedCategory: selectedCategory,
+      categoryList: categoryList,
+      resolve: {
+        imageDefinition : function() {
+          return imageDefinition;
+        },
+        selectedCategory : function() {
+          return selectedCategory;
+        },
+        categoryList : function() {
+          return categoryList;
+        }
+      }
+    });
+
+    modalInstance.result.then(function(){}, function() {
+      $log.info('Modal dismissed at : ' + new Date());
+    });
+  }
+
   //Functions to run as page loads ... kinda like init();
   $scope.getCategories($scope.designId); 
 
 });
+
 
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.
@@ -466,6 +496,55 @@ libraryController.controller('designDefinitionDumpController', function ($scope,
   };
 });
 
+libraryController.controller('imageDetailController', function($scope, $modalInstance, imageDefinition, selectedCategory, categoryList){
+  $scope.imageDetailUpdateSuccess = false;
+  $scope.imageDefinition = imageDefinition;
+  $scope.selectedCategory = selectedCategory;
+  $scope.modalCategories = []; 
+  angular.forEach(categoryList, function(categoryItem) {
+    flattenCategoryList($scope.modalCategories, categoryItem)   
+  });
+  $scope.ok = function () {
+    $modalInstance.dismiss('cancel');
+  };
 
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+  $scope.update = function (imageDefinition) {
+    console.log("Updated imageDefinition :: " + imageDefinition.id);
+    $scope.imageDetailUpdateSuccess = true;
+    // angular.forEach($scope.$parent.selectedCategory.imageList, function(image){
+    //     if(image.id === imageDefinition.id) {
+    //       image = imageDefinition;
+    //     }
+    // });
+  };
+
+  $scope.hasParent = function(category) {
+      if(category!=undefined && category.parent != undefined) {
+        if(category.parent.length > 0) {
+          return true;
+        }
+      }
+      return false;
+  }
+
+  function flattenCategoryList(flattenedList, categoryItem, parent) {
+    if(parent != undefined && parent.length > 0) {
+      categoryItem.categoryName = "   " + categoryItem.categoryName;      
+    }
+
+    flattenedList.push(categoryItem);
+
+    if(categoryItem.categoryList && categoryItem.categoryList.length) {
+      angular.forEach(categoryItem.categoryList, function(categorySubItem) {
+        categorySubItem.parent = categoryItem.categoryName;
+        flattenCategoryList(flattenedList, categorySubItem, categorySubItem.parent);   
+      });
+    }
+  };
+});
 
     

@@ -17,7 +17,7 @@ var angularImage = angular.module('ui.image', [])
         $scope.detailHandler = function(scope) {
           //alert("Go! ImageController.");
           //scope.$parent.imageHandler(scope.info);
-          $scope.$emit('image:detailOpen', scope.info);
+          $scope.$emit('image:detailOpen', scope);
         };
 
         $scope.clickHandler = function(scope) {
@@ -32,14 +32,6 @@ var angularImage = angular.module('ui.image', [])
           console.log("Recording mouseout...");
           $scope.imageLibraryHover = false;
           $scope.$apply();
-        }
-
-        $scope.onControlMouseOver = function(event){
-          event.stopPropagation();
-        }
-
-        $scope.onControlMouseOut = function(event){
-          event.stopPropagation();
         }
 
         $scope.$parent.$watch('imageDragOn', function() {

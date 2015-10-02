@@ -226,3 +226,49 @@
       <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
     </div>
 </script>
+
+<script type="text/ng-template" id="imageDetail.html">
+    <div class="modal-header">
+    <div class="modal-body">  
+        <div >
+          <img src="{{imageDefinition.src}}">
+        </div>
+        <div style="position: absolute; top: 20px; right: 70px;">
+          <div>File Name: {{imageDefinition.name}}</div>
+          <div>Display Name: {{imageDefinition.displayname}}</div>
+          <div>Tags: {{imageDefinition.tags}}</div>
+          <div>Upload Date: {{imageDefinition.uploaddate}}</div>
+          <div>Dimensions: {{imageDefinition.width}} X {{imageDefinition.height}}</div>
+          <div>Number of times used 2014: {{imageDefinition.usageCount2014}}</div>
+          <div>Number of times used 2015: {{imageDefinition.usageCount2015}}</div>
+          <a href="">Download Image</a>
+        <br>
+
+          <p>Update details:</p>
+          <p ng-show="imageDetailUpdateSuccess" style="width: 250px; background-color: #cccccc; border: 1px solid blue; padding: 5px;">Image detail has been updated. The changes aren''t permanent until the library is published.</p>
+
+          <form name="imageDetailForm" novalidate class="simple-form">
+            <div class="form-group">
+              Category:
+              <select class="form-control" name="category" style="width: 300px;" >
+                <option 
+                  ng-repeat="categoryListItem in modalCategories" 
+                  value="{{category.id}}" 
+                  ng-selected="category.categoryName == categoryListItem.categoryName" >
+                   {{categoryListItem.categoryName}}
+                </option>
+              </select>
+              <div class="form-group">
+                Display Name: <input type="text" name="dislayName" class="form-control" ng-model="imageDefinition.displayname" />
+                Tags: <input type="text" name="tags" class="form-control" ng-model="imageDefinition.tags" />
+               </div>
+            </div>
+           </form> 
+        </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="update(imageDefinition)">Update</button>
+      <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</script>

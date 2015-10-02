@@ -1,11 +1,11 @@
 <img src="{{info.src}}">
-<div class="titleBox" ng-show="imageLibraryHover" ng-mouseover="onControlMouseOver($event)" ng-mouseout="onControlMouseOut($event)">{{info.name}}</div>
+<div class="titleBox" ng-show="imageLibraryHover">{{info.name}}</div>
 <!--<button ng-click="detailHandler(this)" type="button" class="btn btn-sm btn-primary">see this?</button> -->
 <div class="controlsBox" ng-show="imageLibraryHover">
 	<a class="btn btn-default btn-xs" ng-click="toggleAll(this)">
 	  <small><span class="glyphicon" ng-class="{'glyphicon-plus' : treeCollapsed, 'glyphicon-minus': !treeCollapsed}"></span></small>
 	</a>
-	<a class="btn btn-default btn-xs" ng-click="detailHandler('lg')">
+	<a class="btn btn-default btn-xs" ng-click="detailHandler(info)">
 	  <small><span class="glyphicon glyphicon-edit"></span></small>
 	</a>
 </div>
