@@ -2,6 +2,7 @@
 var app = angular.module('clipartLibrary', [
   'ngRoute',
   'libraryController',
+  'adminController',
   'ui.tree',
   'ngAnimate', 
   'ui.bootstrap',
@@ -9,6 +10,15 @@ var app = angular.module('clipartLibrary', [
   'ui.image.copy',
   'ui.imageDetail',
   'ngFileUpload']);
+
+app.constant("EVENTS", {
+        "CLICK": "click",
+        "DESTROY": "$destroy"
+    });
+
+app.constant("RESOURCES", {
+        "RUNTIME_CONFIG_URL": "assets/config/runtimeconfig.json",
+    });
 
 // app.config([
 //     "$routeProvider",

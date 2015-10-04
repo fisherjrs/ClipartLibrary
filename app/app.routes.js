@@ -22,7 +22,7 @@ app.config(['$routeProvider',
       }).
       when('/admin', {
         templateUrl: 'app/components/admin/adminView.html',
-        controller: 'DesignController'
+        controller: 'AdminController'
       }).
       when('/reports', {
         templateUrl: 'app/components/reports/reportsView.html',

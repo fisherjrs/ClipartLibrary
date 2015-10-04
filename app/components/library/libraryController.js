@@ -374,11 +374,29 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
     });
   }
 
+  $scope.openCategoryDetail = function(scope, size, categoryList) {
+    var modalInstance = $modal.open({
+      animation: $scope.alertAnimationsEnabled,
+      templateUrl:'categoryDetail.html',
+      controller: 'categoryDetailController',
+      scope: scope,
+      size: size,
+      categoryList: categoryList,
+      resolve: {
+        categoryList : function() {
+          return categoryList;
+        }
+      }
+    });
+
+    modalInstance.result.then(function(){}, function() {
+      $log.info('Modal dismissed at : ' + new Date());
+    });
+  }
   //Functions to run as page loads ... kinda like init();
   $scope.getCategories($scope.designId); 
 
 });
-
 
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.
@@ -496,14 +514,26 @@ libraryController.controller('designDefinitionDumpController', function ($scope,
   };
 });
 
-libraryController.controller('imageDetailController', function($scope, $modalInstance, imageDefinition, selectedCategory, categoryList){
+libraryController.controller('imageDetailController', function($scope, $modalInstance, $log, imageDefinition, selectedCategory, categoryList){
   $scope.imageDetailUpdateSuccess = false;
   $scope.imageDefinition = imageDefinition;
   $scope.selectedCategory = selectedCategory;
+  $scope.categoryList = categoryList;
   $scope.modalCategories = []; 
+  $scope.disableNextButton = false;
+  $scope.disablePreviousButton = false;
+
+  angular.forEach($scope.selectedCategory.imageList, function(image, key){
+    if(image.id === $scope.imageDefinition.id) {
+      $scope.disableNextButton = (key >= $scope.selectedCategory.imageList.length - 1) ? true : false;
+      $scope.disablePreviousButton = (key == 0) ? true : false;
+    }
+  });
+
   angular.forEach(categoryList, function(categoryItem) {
     flattenCategoryList($scope.modalCategories, categoryItem)   
   });
+
   $scope.ok = function () {
     $modalInstance.dismiss('cancel');
   };
@@ -512,39 +542,101 @@ libraryController.controller('imageDetailController', function($scope, $modalIns
     $modalInstance.dismiss('cancel');
   };
 
-  $scope.update = function (imageDefinition) {
-    console.log("Updated imageDefinition :: " + imageDefinition.id);
-    $scope.imageDetailUpdateSuccess = true;
-    // angular.forEach($scope.$parent.selectedCategory.imageList, function(image){
-    //     if(image.id === imageDefinition.id) {
-    //       image = imageDefinition;
-    //     }
-    // });
-  };
+  $scope.nextImage = function() {
+    var newImageDefinition;
+    
+    //Remove update message in case it exists.
+    imageDetailUpdateSuccess = false;
 
-  $scope.hasParent = function(category) {
-      if(category!=undefined && category.parent != undefined) {
-        if(category.parent.length > 0) {
-          return true;
-        }
+    //Loop over images to find next image definition. Enable/disable next/previous buttons.
+    angular.forEach($scope.selectedCategory.imageList, function(image, key){
+      if(image.id === $scope.imageDefinition.id) {
+        if(key < $scope.selectedCategory.imageList.length) {
+           newImageDefinition = $scope.selectedCategory.imageList[key + 1];
+        } 
+        $scope.disableNextButton = (key + 1 >= $scope.selectedCategory.imageList.length - 1) ? true : false;
+        $scope.disablePreviousButton = (key + 1 == 0) ? true : false;
       }
-      return false;
+    });
+
+    //Change model.
+    if(newImageDefinition != undefined) {
+      $scope.imageDefinition = newImageDefinition;
+    }
   }
 
-  function flattenCategoryList(flattenedList, categoryItem, parent) {
-    if(parent != undefined && parent.length > 0) {
-      categoryItem.categoryName = "   " + categoryItem.categoryName;      
-    }
 
+  $scope.previousImage = function() {
+    var newImageDefinition;
+
+    //Remove update message in case it exists.
+    imageDetailUpdateSuccess = false;
+    
+    //Loop over images to find next image definition. Enable/disable next/previous buttons.
+    angular.forEach($scope.selectedCategory.imageList, function(image, key){
+      if(image.id === $scope.imageDefinition.id) {
+        if(key > 0) {
+          newImageDefinition = $scope.selectedCategory.imageList[key - 1];
+        }
+        $scope.disableNextButton = (key - 1 >= $scope.selectedCategory.imageList.length - 1) ? true : false;
+        $scope.disablePreviousButton = (key - 1 == 0) ? true : false;
+      }
+    });
+
+    //Change model.
+    if(newImageDefinition != undefined) {
+      $scope.imageDefinition = newImageDefinition;
+    }
+  }
+
+  $scope.update = function (imageDefinition, newCategorySelection) {
+    console.log("Updated imageDefinition :: " + imageDefinition.id);
+    $scope.imageDetailUpdateSuccess = true;
+
+    if(newCategorySelection != $scope.selectedCategory.id) {
+      
+      //Remove image from selected category. Array structure changes.
+      angular.forEach($scope.selectedCategory.imageList, function(image, key) {
+        if(image.id === imageDefinition.id) {
+          $scope.selectedCategory.imageList.splice(key, 1);         
+          key--;
+          $scope.imageDefinition = $scope.selectedCategory.imageList[key];
+          $scope.disableNextButton = (key>= $scope.selectedCategory.imageList.length - 1) ? true : false;
+          $scope.disablePreviousButton = (key == 0) ? true : false;
+        }
+
+      });
+
+      //Add image to new category.
+      angular.forEach($scope.categoryList, function(category, key) {
+        if(category.id === newCategorySelection.id) {
+          if(category.imageList == undefined) {
+            category.imageList = [imageDefinition];
+          } else {
+            category.imageList.push(imageDefinition);
+          }          
+        }
+      });
+    };
+  };
+
+
+  function flattenCategoryList(flattenedList, categoryItem) {
+    
     flattenedList.push(categoryItem);
 
     if(categoryItem.categoryList && categoryItem.categoryList.length) {
       angular.forEach(categoryItem.categoryList, function(categorySubItem) {
         categorySubItem.parent = categoryItem.categoryName;
-        flattenCategoryList(flattenedList, categorySubItem, categorySubItem.parent);   
+        flattenCategoryList(flattenedList, categorySubItem);   
       });
     }
   };
+});
+
+libraryController.controller('categoryDetailController', function($scope, $modalInstance, $log, categoryList){
+  $scope.categoryDefinition = categoryDefinition;
+  $scope.categoryList = categoryList;
 });
 
     

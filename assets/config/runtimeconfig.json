@@ -1,0 +1,55 @@
+{
+    "layoutControls": {
+        "index": 0,
+        "categoryEditViewControls": 
+            {
+                "control": [
+                    "form",
+                    "tree"
+                ]
+            },
+        "imageDetailView": [
+            {
+                "features": [
+                    "swapCategories"
+                ]
+            }
+        ]
+    },
+    "debugControls": {
+        "index": 0,
+        "categoryEditViewControls": 
+            {
+                "control": [
+                    "form",
+                    "tree"
+                ]
+            }
+        ,
+        "imageDetailView": [
+            {
+                "features": [
+                    "swapCategories"
+                ]
+            }
+        ]
+    },
+    "configControls": {
+        "index": 0,
+        "categoryEditView": [
+            {
+                "control": [
+                    "form",
+                    "tree"
+                ]
+            }
+        ],
+        "imageDetailView": [
+            {
+                "features": [
+                    "swapCategories"
+                ]
+            }
+        ]
+    }
+}

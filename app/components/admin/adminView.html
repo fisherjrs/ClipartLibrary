@@ -1,14 +1,26 @@
 <div class="columnsContainer">
 
 <div class="sideNav">
-  <h4>Admin</h4>
-
-
+	<div style="padding-bottom: 5px;">
+		<button type="button" class="btn btn-default" ng-click="loadConfig('layout')">Config</button>
+  	</div>
+	<div style="padding-bottom: 5px;">
+		<button type="button" class="btn btn-default" ng-click="displayControls('layout')">Layout</button>
+  	</div>
+  	<div>
+		<button type="button" class="btn btn-default" ng-click="displayControls('config')">Config</button>
+	</div>
+  	<div>
+		<button type="button" class="btn btn-default" ng-click="displayControls('debug')">Debug</button>
+	</div>	
 </div>
 
 <div class="leftColumn">
 
-    <p>Admin</p>
+    <div id="layoutControl" ng-show="showLayoutControl">
+    	<h4>Layout Controls</h4><
+
+    </div>
 </div>
 
 <div class="rightColumn">

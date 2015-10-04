@@ -7,7 +7,7 @@
         <a class="btn btn-default btn-xs" ng-click="toggleAll(this)">
           <small><span class="glyphicon" ng-class="{'glyphicon-plus' : treeCollapsed, 'glyphicon-minus': !treeCollapsed}"></span></small>
         </a>
-        <a class="btn btn-default btn-xs" ng-click="openModalAlert('lg')">
+        <a class="btn btn-default btn-xs" ng-click="openCategoryDetail('lg', categoryDefintion)">
           <small><span class="glyphicon glyphicon-edit"></span></small>
         </a>
       </div>
@@ -229,6 +229,12 @@
 
 <script type="text/ng-template" id="imageDetail.html">
     <div class="modal-header">
+          <p ng-show="imageDetailUpdateSuccess" style="width: 250px; background-color: #cccccc; border: 1px solid blue; padding: 5px;">Image detail has been updated. The changes aren''t permanent until the library is published.</p>
+        <div style="height:25px;">
+          <a class="btn btn-default btn-xs pull-right" ng-click="nextImage(imageDefinition)" ng-disabled="disableNextButton"><span class="glyphicon glyphicon-arrow-right"></span></a>
+          <a class="btn btn-default btn-xs pull-right" ng-click="previousImage(imageDefinition)" ng-disabled="disablePreviousButton"><span class="glyphicon glyphicon-arrow-left"></span></a>
+        </div>
+    </div>
     <div class="modal-body">  
         <div >
           <img src="{{imageDefinition.src}}">
@@ -242,22 +248,17 @@
           <div>Number of times used 2014: {{imageDefinition.usageCount2014}}</div>
           <div>Number of times used 2015: {{imageDefinition.usageCount2015}}</div>
           <a href="">Download Image</a>
-        <br>
-
-          <p>Update details:</p>
-          <p ng-show="imageDetailUpdateSuccess" style="width: 250px; background-color: #cccccc; border: 1px solid blue; padding: 5px;">Image detail has been updated. The changes aren''t permanent until the library is published.</p>
+        <br>         
 
           <form name="imageDetailForm" novalidate class="simple-form">
             <div class="form-group">
               Category:
-              <select class="form-control" name="category" style="width: 300px;" >
-                <option 
-                  ng-repeat="categoryListItem in modalCategories" 
-                  value="{{category.id}}" 
-                  ng-selected="category.categoryName == categoryListItem.categoryName" >
-                   {{categoryListItem.categoryName}}
-                </option>
+              <select class="form-control" 
+                name="category" 
+                ng-model="newCategorySelection" 
+                ng-options="category.categoryName group by category.parentCategoryName for category in modalCategories">
               </select>
+           
               <div class="form-group">
                 Display Name: <input type="text" name="dislayName" class="form-control" ng-model="imageDefinition.displayname" />
                 Tags: <input type="text" name="tags" class="form-control" ng-model="imageDefinition.tags" />
@@ -268,7 +269,28 @@
 
     </div>
     <div class="modal-footer">
-      <button class="btn btn-primary" type="button" ng-click="update(imageDefinition)">Update</button>
-      <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+      <button class="btn btn-default" type="button" ng-click="update(imageDefinition, newCategorySelection)">Update</button>
+      <button class="btn btn-default" type="button" ng-click="cancel()">Close</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="categoryDetail.html">
+    <div class="modal-header">
+          
+    </div>
+    <div class="modal-body">  
+        
+        <div style="position: absolute; top: 20px; right: 70px;">
+          <form name="categoryDetailForm" novalidate class="simple-form">
+            <div class="form-group">
+              Category: {{categoryDefinition.name}}              
+            </div>
+          </form> 
+        </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" type="button" ng-click="update(categoryDefinition)">Update</button>
+      <button class="btn btn-default" type="button" ng-click="cancel()">Close</button>
     </div>
 </script>
