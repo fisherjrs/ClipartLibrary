@@ -1,31 +1,33 @@
 {
     "layoutControls": {
         "index": 0,
-        "categoryEditViewControls": 
-            {
-                "control": [
-                    "form",
-                    "tree"
-                ]
-            },
+        "categoryEditViewControls": {
+            "control": [
+                "form",
+                "tree"
+            ]
+        },
         "imageDetailView": [
             {
                 "features": [
-                    "swapCategories"
+                    {
+                        "swapCategories": [
+                            "yes",
+                            "no"
+                        ]
+                    }
                 ]
             }
         ]
     },
     "debugControls": {
         "index": 0,
-        "categoryEditViewControls": 
-            {
-                "control": [
-                    "form",
-                    "tree"
-                ]
-            }
-        ,
+        "categoryEditViewControls": {
+            "control": [
+                "form",
+                "tree"
+            ]
+        },
         "imageDetailView": [
             {
                 "features": [

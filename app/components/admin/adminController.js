@@ -1,16 +1,14 @@
 var adminController = angular.module('adminController', []);
 
-adminController.controller('AdminController', function($scope, $log, $http, EVENTS, RESOURCES){
+adminController.controller('AdminController', function($rootScope, $scope, $log, $http, EVENTS, RESOURCES){
 
-	// var lc = {};
-	// lc.categoryEditView = {};
-	// lc.categoryEditView.control = ['form', 'tree'];
-	// lc.imageDetailView = {};
-	// lc.imageDetailView.features = {};
-	// lc.imageDetailView
 	$scope.layoutControls = {};
 	$scope.debugControls = {};
 	$scope.configControls = {};
+
+	$scope.showLayout = true;
+	$scope.showConfig = false;
+	$scope.showDebug = false;
 
 	$scope.loadConfig = function(designId) {
     	url = RESOURCES.RUNTIME_CONFIG_URL;
@@ -19,6 +17,7 @@ adminController.controller('AdminController', function($scope, $log, $http, EVEN
 	            $scope.layoutControls = response.data.layoutControls;
 	            $scope.debugControls = response.data.debugControls;
 	            $scope.configControls = response.data.configControls;
+	            $scope.updateLayout();
 	        }, function(response) {
 	            $scope.error = "Unable to retrieve category definition."
 	        });
@@ -29,5 +28,9 @@ adminController.controller('AdminController', function($scope, $log, $http, EVEN
 		console.log($scope.layoutControls.categoryEditViewControls.control[0]);
 
 		console.log(EVENTS.CLICK);
+	};
+
+	$scope.updateLayout = function(){
+		$rootScope.$emit('config:layoutChange', $scope.layoutControls);
 	};
 });

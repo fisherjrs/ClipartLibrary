@@ -1,6 +1,6 @@
 var libraryController = angular.module('libraryController', []);
 
-libraryController.controller('LibraryController', function($scope, $http, $modal, $log, $timeout, $document) {
+libraryController.controller('LibraryController', function($rootScope, $scope, $http, $modal, $log, $timeout, $document) {
  
   $scope.mode = 'offline';
   $scope.designId = 9;
@@ -131,6 +131,24 @@ libraryController.controller('LibraryController', function($scope, $http, $modal
         }
       } 
     });
+  });
+
+  $scope.$on('config:layoutChange', function(event, layoutControls){
+    alert("Go!");
+    $scope.layoutControls = layoutControls;
+  });
+
+  $rootScope.$on('config:layoutChange', function(event, layoutControls){
+    alert("Go Go!");
+    $scope.layoutControls = layoutControls;
+  });
+
+  $scope.$on('config:debugChange', function(event, layoutControls){
+    $scope.configControls = debugControls;
+  });
+
+  $scope.$on('config:configChange', function(event, layoutControls){
+    $scope.configControls = configControls;
   });
   
   $scope.getCategories = function(designId) {
