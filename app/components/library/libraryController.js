@@ -2,6 +2,7 @@ var libraryController = angular.module('libraryController', []);
 
 libraryController.controller('LibraryController', function($rootScope, $scope, $http, $modal, $log, $timeout, $document) {
  
+  $rootScope.authenticated = false;
   $scope.mode = 'offline';
   $scope.designId = 9;
 
